@@ -1,6 +1,5 @@
-import { motion } from 'motion/react';
-import { ReactNode } from 'react';
-
+import { motion } from "motion/react";
+import type { ReactNode } from "react";
 /**
  * Award-winning micro-interactions collection
  * Subtle animations that enhance user experience
@@ -14,13 +13,13 @@ interface MicroInteractionProps {
 /**
  * Hover lift effect - common in premium sites
  */
-export function HoverLift({ children, className = '' }: MicroInteractionProps) {
+export function HoverLift({ children, className = "" }: MicroInteractionProps) {
   return (
     <motion.div
       className={className}
-      whileHover={{ 
+      whileHover={{
         y: -8,
-        transition: { duration: 0.3, ease: [0.43, 0.13, 0.23, 0.96] }
+        transition: { duration: 0.3, ease: [0.43, 0.13, 0.23, 0.96] },
       }}
       whileTap={{ scale: 0.98 }}
     >
@@ -32,13 +31,16 @@ export function HoverLift({ children, className = '' }: MicroInteractionProps) {
 /**
  * Magnetic button effect - Awwwards favorite
  */
-export function MagneticHover({ children, className = '' }: MicroInteractionProps) {
+export function MagneticHover({
+  children,
+  className = "",
+}: MicroInteractionProps) {
   return (
     <motion.div
       className={`relative ${className}`}
       whileHover={{
         scale: 1.05,
-        transition: { duration: 0.3 }
+        transition: { duration: 0.3 },
       }}
       whileTap={{ scale: 0.95 }}
     >
@@ -50,13 +52,16 @@ export function MagneticHover({ children, className = '' }: MicroInteractionProp
 /**
  * Scale on hover - simple but effective
  */
-export function ScaleHover({ children, className = '' }: MicroInteractionProps) {
+export function ScaleHover({
+  children,
+  className = "",
+}: MicroInteractionProps) {
   return (
     <motion.div
       className={className}
-      whileHover={{ 
+      whileHover={{
         scale: 1.02,
-        transition: { duration: 0.2 }
+        transition: { duration: 0.2 },
       }}
       whileTap={{ scale: 0.98 }}
     >
@@ -68,13 +73,16 @@ export function ScaleHover({ children, className = '' }: MicroInteractionProps) 
 /**
  * Rotate on hover - adds playfulness
  */
-export function RotateHover({ children, className = '' }: MicroInteractionProps) {
+export function RotateHover({
+  children,
+  className = "",
+}: MicroInteractionProps) {
   return (
     <motion.div
       className={className}
-      whileHover={{ 
+      whileHover={{
         rotate: 2,
-        transition: { duration: 0.3 }
+        transition: { duration: 0.3 },
       }}
     >
       {children}
@@ -85,13 +93,13 @@ export function RotateHover({ children, className = '' }: MicroInteractionProps)
 /**
  * Glow effect on hover
  */
-export function GlowHover({ children, className = '' }: MicroInteractionProps) {
+export function GlowHover({ children, className = "" }: MicroInteractionProps) {
   return (
     <motion.div
       className={className}
       whileHover={{
-        boxShadow: '0 0 25px rgba(184, 152, 81, 0.5)',
-        transition: { duration: 0.3 }
+        boxShadow: "0 0 25px rgba(184, 152, 81, 0.5)",
+        transition: { duration: 0.3 },
       }}
     >
       {children}

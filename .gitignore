@@ -71,3 +71,40 @@ config.production.js
 *.pem
 *.key
 *.cert
+
+# Documentation & Markdown (exclude from repo)
+*.md
+!README.md
+SEO-GUIDE.md
+PERFORMANCE-CHECKLIST.md
+DEPLOYMENT-SEO-SETUP.md
+LCP-OPTIMIZATION-REPORT.md
+OPTIMIZATIONS-SUMMARY.md
+AWARD-WINNING-FEATURES.md
+FINAL-IMPROVEMENTS-SUMMARY.md
+QUICK-START-GUIDE.md
+
+# Demo files
+physics-footer-demo.html
+*-demo.html
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Test files
+test/
+tests/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Source maps
+*.map
+
+# Lock files (optional - comment out if you want to include them)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

@@ -7,8 +7,8 @@ const navLinks = [
   {
     label: "COMPANY",
     href: "#company",
-    color: "#1a1a1a",
-    textColor: "#B89851",
+    color: "#B89851",
+    textColor: "#0a0a0a",
   },
   {
     label: "BUSINESS",
@@ -19,23 +19,33 @@ const navLinks = [
   {
     label: "STRENGTHS",
     href: "#strengths",
-    color: "#1a1a1a",
-    textColor: "#B89851",
+    color: "#B89851",
+    textColor: "#0a0a0a",
   },
   {
     label: "RECRUITMENT",
     href: "#recruitment",
-    color: "#B89851",
-    textColor: "#1a1a1a",
+    color: "#1a1a1a",
+    textColor: "#B89851",
   },
   {
     label: "CONTACT",
     href: "#contact",
-    color: "#1a1a1a",
-    textColor: "#B89851",
+    color: "#B89851",
+    textColor: "#0a0a0a",
   },
-  { label: "NEWS", href: "#news", color: "#1a1a1a", textColor: "#B89851" },
-  { label: "UD GROUP", href: "#", color: "#ffffff", textColor: "#1a1a1a" },
+  { 
+    label: "NEWS", 
+    href: "#news", 
+    color: "#1a1a1a", 
+    textColor: "#B89851" 
+  },
+  { 
+    label: "UD GROUP", 
+    href: "#top", 
+    color: "#B89851", 
+    textColor: "#0a0a0a" 
+  },
 ];
 
 export function Footer() {
@@ -58,16 +68,17 @@ export function Footer() {
     } = Matter;
 
     const engine = Engine.create();
-    engine.gravity.y = 1;
+    engine.gravity.y = 0.8; // Slightly gentler gravity
     const world = engine.world;
 
     let containerBounds = containerRef.current.getBoundingClientRect();
-    const PILL_HEIGHT = 56;
+    const PILL_HEIGHT = 50;
     const BALL_OPTIONS = {
-      restitution: 0.8,
-      friction: 0.001,
-      frictionAir: 0.01,
-      density: 0.001,
+      restitution: 0.9, // Higher bounciness for more playful interaction
+      friction: 0.005, // Very low friction
+      frictionAir: 0.005, // Low air resistance for smooth movement
+      density: 0.0008, // Lighter pills
+      slop: 0.05, // Collision tolerance
     };
 
     const render = Render.create({
@@ -164,35 +175,83 @@ export function Footer() {
     createBalls();
 
     const mouse = Mouse.create(render.canvas);
+    
+    // Create mouse constraint with better interaction
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.2,
+        stiffness: 0.05, // Lower stiffness for more fluid movement
+        damping: 0.1, // Add damping for smoother motion
         render: { visible: false },
       },
     });
 
     Composite.add(world, mouseConstraint);
 
+    // Add mouse repulsion force for pills to flee from cursor
+    let mousePosition = { x: 0, y: 0 };
+    
+    Events.on(engine, "beforeUpdate", () => {
+      if (!mouse.position.x || !mouse.position.y) return;
+      
+      mousePosition = { x: mouse.position.x, y: mouse.position.y };
+      
+      // Apply repulsion force to pills near the mouse
+      balls.forEach((pill) => {
+        const dx = pill.position.x - mousePosition.x;
+        const dy = pill.position.y - mousePosition.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Repulsion radius
+        const repulsionRadius = 150;
+        
+        if (distance < repulsionRadius && distance > 0) {
+          // Calculate repulsion force (stronger when closer)
+          const force = (repulsionRadius - distance) / repulsionRadius;
+          const repulsionForce = 0.0015 * force; // Adjust strength
+          
+          // Apply force away from mouse
+          Matter.Body.applyForce(pill, pill.position, {
+            x: (dx / distance) * repulsionForce,
+            y: (dy / distance) * repulsionForce,
+          });
+          
+          // Add slight rotation for more dynamic feel
+          Matter.Body.setAngularVelocity(pill, pill.angularVelocity + (Math.random() - 0.5) * 0.02);
+        }
+      });
+    });
+
+    // Handle click interactions
     Events.on(mouseConstraint, "mouseup", (event: any) => {
-      const mousePosition = event.mouse.position;
-      const clickedBodies = Matter.Query.point(balls, mousePosition);
+      const clickedBodies = Matter.Query.point(balls, event.mouse.position);
       if (clickedBodies.length > 0) {
         const data = (clickedBodies[0] as any).customData;
-        if (data && data.href && data.href !== "#") {
-          window.location.hash = data.href;
+        if (data && data.href) {
+          // Add a little "pop" effect on click
+          const pill = clickedBodies[0];
+          Matter.Body.applyForce(pill, pill.position, {
+            x: (Math.random() - 0.5) * 0.01,
+            y: -0.02,
+          });
+          
+          // Navigate
+          if (data.href !== "#") {
+            setTimeout(() => {
+              const element = document.querySelector(data.href);
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }
         }
       }
     });
 
+    // Handle hover cursor changes
     Events.on(mouseConstraint, "mousemove", (event: any) => {
-      const mousePosition = event.mouse.position;
-      const hoveredBodies = Matter.Query.point(balls, mousePosition);
-      if (hoveredBodies.length > 0) {
-        render.canvas.style.cursor = "pointer";
-      } else {
-        render.canvas.style.cursor = "default";
-      }
+      const hoveredBodies = Matter.Query.point(balls, event.mouse.position);
+      render.canvas.style.cursor = hoveredBodies.length > 0 ? "pointer" : "default";
     });
 
     // Ensure mouse handles scroll correctly
@@ -203,23 +262,42 @@ export function Footer() {
       mouse.element.removeEventListener("wheel", mouseAny.mousewheel);
     }
 
-    // Render text on balls
+    // Render text and glow effect on pills
     Events.on(render, "afterRender", () => {
       const context = render.context;
-      balls.forEach((ball) => {
-        const data = (ball as any).customData;
+      
+      balls.forEach((pill) => {
+        const data = (pill as any).customData;
         if (!data) return;
 
         context.save();
-        context.translate(ball.position.x, ball.position.y);
-        context.rotate(ball.angle);
+        context.translate(pill.position.x, pill.position.y);
+        context.rotate(pill.angle);
 
+        // Check if mouse is near this pill for glow effect
+        const dx = pill.position.x - mousePosition.x;
+        const dy = pill.position.y - mousePosition.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const isNearMouse = distance < 120;
+
+        // Add subtle glow when mouse is nearby
+        if (isNearMouse) {
+          context.shadowColor = data.color === "#B89851" ? "#B89851" : "#B89851";
+          context.shadowBlur = 15;
+          context.shadowOffsetX = 0;
+          context.shadowOffsetY = 0;
+        }
+
+        // Render text
         context.fillStyle = data.textColor;
-        context.font = "500 12px Inter, sans-serif";
+        context.font = "600 13px Inter, sans-serif";
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.letterSpacing = "1px";
+        context.letterSpacing = "1.5px";
         context.fillText(data.label, 0, 0);
+
+        // Reset shadow
+        context.shadowBlur = 0;
 
         context.restore();
       });
@@ -283,9 +361,9 @@ export function Footer() {
         className="absolute top-0 left-0 w-full h-full touch-none z-0"
       />
 
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 text-center pointer-events-none z-10 opacity-50 animate-pulse">
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 text-center pointer-events-none z-10 opacity-60 animate-pulse">
         <p className="text-xs font-mono uppercase tracking-[0.2em] text-[#B89851]">
-          Interact to Navigate
+          👆 Move your mouse to interact
         </p>
       </div>
 

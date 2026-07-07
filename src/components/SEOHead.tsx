@@ -62,10 +62,9 @@ export function SEOHead() {
 
   // Preload critical assets
   useEffect(() => {
-    // Preload hero video
+    // Preload hero video using fetch hint (video is not a valid 'as' value)
     const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'video';
+    link.rel = 'prefetch'; // Use prefetch for video instead of preload
     link.href = 'https://res.cloudinary.com/dcdc4hj6v/video/upload/v1782373187/I_want_the_output_format_with_xvccoz.mp4';
     document.head.appendChild(link);
 

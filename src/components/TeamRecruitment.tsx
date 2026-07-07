@@ -80,7 +80,6 @@ export function TeamRecruitment() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const contentsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const indicatorsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const xToBg = useRef<gsap.QuickToFunc | null>(null);
   const yToBg = useRef<gsap.QuickToFunc | null>(null);
@@ -120,14 +119,6 @@ export function TeamRecruitment() {
         autoAlpha: 0,
       });
       gsap.set(contentsRef.current[0], { opacity: 1, y: 0, autoAlpha: 1 });
-      gsap.set(indicatorsRef.current.slice(1), {
-        height: 8,
-        backgroundColor: "rgba(255,255,255,0.4)",
-      });
-      gsap.set(indicatorsRef.current[0], {
-        height: 32,
-        backgroundColor: "rgba(255,255,255,1)",
-      });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -153,15 +144,6 @@ export function TeamRecruitment() {
             { opacity: 0, y: -40, autoAlpha: 0, duration: 1 },
             `step${i}`,
           )
-          .to(
-            indicatorsRef.current[i],
-            {
-              height: 8,
-              backgroundColor: "rgba(255,255,255,0.4)",
-              duration: 1,
-            },
-            `step${i}`,
-          )
 
           .to(
             imagesRef.current[i + 1],
@@ -171,11 +153,6 @@ export function TeamRecruitment() {
           .to(
             contentsRef.current[i + 1],
             { opacity: 1, y: 0, autoAlpha: 1, duration: 1 },
-            `step${i}`,
-          )
-          .to(
-            indicatorsRef.current[i + 1],
-            { height: 32, backgroundColor: "rgba(255,255,255,1)", duration: 1 },
             `step${i}`,
           );
 
@@ -215,17 +192,18 @@ export function TeamRecruitment() {
         <div className="relative w-full h-full max-w-[1600px] mx-auto overflow-hidden dark:bg-[#1a1a1a] rounded-sm transition-colors duration-500">
           {/* Iframe Background */}
           <iframe
-            src="https://colorflow-embed.b-cdn.net/embed.html#e=_m3lgihA"
-            className="absolute inset-0 w-full h-full border-0 pointer-events-none z-0 dark:hidden"
+            src="https://colorflow-embed.b-cdn.net/embed.html#e=ydtV_4w4"
+            className="absolute inset-0 w-full h-full border-0 pointer-events-none z-0"
             title="Background animation"
             loading="lazy"
           />
+
           {/* Blueprint Grid Background */}
-          <div className="bg-parallax absolute -inset-12.5 z-0 pointer-events-none opacity-40 dark:opacity-20 transition-opacity duration-500 blueprint-grid-bg" />
+          <div className="bg-parallax absolute -inset-12.5 z-0 pointer-events-none opacity-0 dark:opacity-20 transition-opacity duration-500 blueprint-grid-bg" />
 
           {/* Top Left White Box */}
           <div className="absolute top-0 left-0 bg-white dark:bg-[#121212] px-6 md:px-12 py-4 md:py-12 z-30 rounded-br-md transition-colors duration-500 border-b border-r border-transparent dark:border-[#B89851]/20">
-            <h2 className="text-[#0A71C6] dark:text-[#B89851] text-3xl md:text-6xl font-black font-sans leading-tight tracking-tight transition-colors duration-500 uppercase">
+            <h2 className="text-[#B89851] dark:text-[#B89851] text-3xl md:text-6xl font-black font-sans leading-tight tracking-tight transition-colors duration-500 uppercase">
               {t("team.title")}
             </h2>
           </div>
@@ -294,19 +272,6 @@ export function TeamRecruitment() {
               </div>
             ))}
           </div>
-
-          {/* Progress Indicators */}
-          <div className="absolute left-3 md:left-12 top-[55%] md:top-1/2 -translate-y-1/2 z-30 flex flex-col gap-2 md:gap-3">
-            {teamData.map((_, idx) => (
-              <div
-                key={`indicator-${idx}`}
-                ref={(el) => {
-                  indicatorsRef.current[idx] = el;
-                }}
-                className="w-1.5 rounded-full"
-              />
-            ))}
-          </div>
         </div>
       </section>
 
@@ -331,7 +296,7 @@ export function TeamRecruitment() {
                   className="overflow-y-auto p-8 md:p-12"
                   data-lenis-prevent="true"
                 >
-                  <p className="font-mono text-[#0A71C6] dark:text-[#B89851] font-bold text-sm tracking-widest uppercase mb-2 transition-colors duration-500">
+                  <p className="font-mono text-[#B89851] dark:text-[#B89851] font-bold text-sm tracking-widest uppercase mb-2 transition-colors duration-500">
                     {data.role}
                   </p>
                   <h3 className="font-serif text-4xl md:text-5xl font-light mb-8 text-neutral-900 dark:text-[#B89851] transition-colors duration-500">

@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:analyze": "tsc -b && vite build --mode analyze",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "npx vite-bundle-visualizer",
+    "lighthouse": "lighthouse http://localhost:4173 --view --output=html --output-path=./lighthouse-report.html",
+    "test:perf": "npm run build && npm run preview & sleep 5 && npm run lighthouse"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

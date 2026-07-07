@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import * as THREE from 'three';
@@ -87,13 +87,24 @@ extend({ WebGLShaderMaterial });
 function BackgroundMesh() {
   const materialRef = useRef<any>(null);
   const reducedMotion = useReducedMotion();
+  
+  // Memoize resolution to avoid recalculating
+  const resolution = useMemo(() => 
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    []
+  );
 
   useFrame((state) => {
     if (materialRef.current) {
-      // Reduced motion: hold the noise pattern still instead of animating
-      // it forever in the background on every page.
+      // Reduced motion: hold the noise pattern still
       materialRef.current.uTime = reducedMotion ? 0 : state.clock.elapsedTime;
-      materialRef.current.uResolution.set(window.innerWidth, window.innerHeight);
+      
+      // Only update resolution on significant changes (debounced by frame rate)
+      if (Math.abs(resolution.x - window.innerWidth) > 100 || 
+          Math.abs(resolution.y - window.innerHeight) > 100) {
+        resolution.set(window.innerWidth, window.innerHeight);
+        materialRef.current.uResolution.copy(resolution);
+      }
     }
   });
 
@@ -113,7 +124,15 @@ export function WebglBackground() {
         orthographic 
         camera={{ position: [0, 0, 1], zoom: 1 }}
         dpr={[1, 1.5]}
-        gl={{ powerPreference: "high-performance", antialias: false, alpha: false }}
+        gl={{ 
+          powerPreference: "high-performance", 
+          antialias: false, 
+          alpha: false,
+          stencil: false,
+          depth: false,
+        }}
+        frameloop="demand" // Only render when needed
+        performance={{ min: 0.5 }} // Throttle on low-end devices
       >
         <BackgroundMesh />
       </Canvas>

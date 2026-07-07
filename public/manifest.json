@@ -1,0 +1,22 @@
+{
+  "name": "UD Group - Amara Garden City",
+  "short_name": "UD Group",
+  "description": "Premium residential and commercial development in Amarapura, Mandalay",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#B89851",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "real-estate", "construction"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "scope": "/"
+}

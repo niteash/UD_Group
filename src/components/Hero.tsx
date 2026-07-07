@@ -13,14 +13,30 @@ export function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".hero-ghost", {
+      // Batch DOM reads before writes to avoid forced reflows
+      const elements = {
+        ghost: document.querySelectorAll(".hero-ghost"),
+        scale: document.querySelectorAll(".hero-scale-anim"),
+        panel: document.querySelector(".hero-panel"),
+        ghostFade: document.querySelectorAll(".hero-ghost, .hero-marquee-fade, .scroll-more"),
+        video: document.querySelector(".hero-video"),
+      };
+
+      // Use will-change for elements that will animate
+      gsap.set([elements.ghost, elements.scale, elements.panel], {
+        willChange: "transform, opacity"
+      });
+
+      // Optimize initial animations - use transform instead of position
+      gsap.from(elements.ghost, {
         opacity: 0,
         y: 30,
         duration: 1.1,
         ease: "power3.out",
         delay: 0.1,
       });
-      gsap.from(".hero-scale-anim", {
+      
+      gsap.from(elements.scale, {
         opacity: 0,
         scale: 0.92,
         duration: 1.2,
@@ -34,14 +50,15 @@ export function Hero() {
           trigger: rootRef.current,
           start: "top top",
           end: "+=100%",
-          scrub: true,
+          scrub: 1, // Increased for smoother performance
           pin: true,
           pinSpacing: true,
+          anticipatePin: 1, // Improve pin performance
         },
       });
 
       tl.to(
-        ".hero-panel",
+        elements.panel,
         {
           width: "100vw",
           height: "100vh",
@@ -54,7 +71,7 @@ export function Hero() {
       );
 
       tl.to(
-        ".hero-ghost, .hero-marquee-fade, .scroll-more",
+        elements.ghostFade,
         {
           opacity: 0,
           ease: "power2.inOut",
@@ -63,7 +80,7 @@ export function Hero() {
       );
 
       tl.to(
-        ".hero-video",
+        elements.video,
         {
           opacity: 1,
           ease: "power2.inOut",
@@ -71,13 +88,23 @@ export function Hero() {
         0,
       );
 
-      // Continuous marquee animation
-      gsap.to(".hero-marquee", {
-        xPercent: -50,
-        repeat: -1,
-        duration: 15,
-        ease: "none",
+      // Continuous marquee animation - use x instead of xPercent for better performance
+      const marquees = document.querySelectorAll(".hero-marquee");
+      marquees.forEach((marquee) => {
+        gsap.to(marquee, {
+          x: -marquee.scrollWidth / 2,
+          repeat: -1,
+          duration: 15,
+          ease: "none",
+        });
       });
+
+      // Clear will-change after animations complete
+      return () => {
+        gsap.set([elements.ghost, elements.scale, elements.panel], {
+          willChange: "auto"
+        });
+      };
     }, rootRef);
 
     return () => ctx.revert();

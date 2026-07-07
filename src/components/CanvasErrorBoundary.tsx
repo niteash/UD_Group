@@ -1,4 +1,5 @@
-import React, { ErrorInfo, ReactNode } from "react";
+import { Component } from "react";
+import type { ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -9,7 +10,7 @@ interface State {
   hasError: boolean;
 }
 
-export class CanvasErrorBoundary extends React.Component<Props, State> {
+export class CanvasErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
   };

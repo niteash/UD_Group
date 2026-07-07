@@ -1,8 +1,8 @@
-import { useRef, useState, useMemo, Suspense } from "react";
+import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { useMotionValue, useSpring } from "motion/react";
+import { useSpring } from "motion/react";
 
 const vertexShader = `
 varying vec2 vUv;

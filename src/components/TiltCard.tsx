@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useSpring, useMotionValue } from "motion/react";
 
 interface TiltCardProps {
@@ -13,9 +13,6 @@ export function TiltCard({
   className = "",
 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
 
   const springConfig = { damping: 20, stiffness: 150 };
   const rotateX = useSpring(useMotionValue(0), springConfig);

@@ -28,7 +28,8 @@ const teamData = [
       "In addition to these academic hobbies, U Khin Maung Win dabbles in photography and gardening. And, as is expected from a man who has built a business on automobile manufacturing, he loves cars and is the proud owner of a Rolls Royce among other luxury vehicles. Despite this picture of success, U Khin Maung Win never forgets his humble beginnings and the people who helped him along the way. His legacy is important to him and he wants to encourage not just only his family but all young people to strive for success. ‘It may sound strange, but I want my loved ones to struggle. I want them to face challenges and find ways to overcome them. This is the best way to learn’, he stated.",
       "U Khin Maung Win plans to write a book in the near future, passing on his knowledge and experience to potential business leaders. ‘It is important that we encourage the younger generation to be interested in technology, to believe in the value of education and to serve their community’, he says. ‘There is potential but too many young people are not motivated. They blame their parents for not providing money to help them start a business. But that should not be the case – their parents gave them a brain and a healthy body. That is all that is needed to get a start in the business world’.",
     ],
-    image: "https://pngimg.com/d/businessman_PNG6566.png",
+    image:
+      "https://res.cloudinary.com/dcdc4hj6v/image/upload/v1782316302/01_tbzpwc.png",
   },
   {
     id: 2,
@@ -47,7 +48,8 @@ const teamData = [
       "Beyond project execution, he leads key meetings, collaborates with stakeholders, and listens closely to the CEO’s vision to translate ideas into actionable plans. His leadership ensures that Amara Garden City is developed with precision, innovation, and long-term sustainability in mind.",
       "With a commitment to excellence and strategic growth, Mr. Wai Lin Tun is shaping the future of Amara Garden City, making it a landmark project in urban development.",
     ],
-    image: "https://pngimg.com/d/businessman_PNG6565.png",
+    image:
+      "https://res.cloudinary.com/dcdc4hj6v/image/upload/v1782316304/waiLinhtun_qmfcgq.png",
   },
   {
     id: 3,
@@ -67,7 +69,8 @@ const teamData = [
       "Committed to social impact, Ms Win Win Htun is also the Membership Chair of the Rotary Club of Yadanabon Myanmar, leading initiatives that contribute to community development and humanitarian efforts.",
       "Ms Win Win Htun is focused on building strategic partnerships and expanding investment opportunities to drive UD Group’s future growth, particularly in the real estate sector. Their leadership across multiple sectors ensures that Amara Garden City remains a benchmark for modern, sustainable living in Myanmar.",
     ],
-    image: "https://pngimg.com/d/businessman_PNG6564.png",
+    image:
+      "https://res.cloudinary.com/dcdc4hj6v/image/upload/v1782316305/winwinhtun_rx5tdv.png",
   },
 ];
 

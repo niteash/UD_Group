@@ -19,7 +19,7 @@ function Starfield() {
     return [p, s];
   }, [count]);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (!ref.current) return;
     const positionsAttr = ref.current.geometry.attributes.position;
     for (let i = 0; i < count; i++) {

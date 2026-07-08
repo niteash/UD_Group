@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { LiquidImage } from "./LiquidImage";
+import { CanvasErrorBoundary } from "./CanvasErrorBoundary";
 import { MagneticButton } from "./MagneticButton";
 
 const businessAreas = {
@@ -75,13 +77,9 @@ function MarqueeCard({
   card: (typeof businessAreas.cards)[0];
   onClick: () => void;
 }) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <div
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="relative flex-shrink-0 cursor-pointer w-[85vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] aspect-[4/5] mx-1 md:mx-2 transition-transform duration-500 hover:scale-[1.02]"
     >
       <div className="relative w-full h-full rounded-[1rem] md:rounded-[2rem] overflow-hidden bg-neutral-900 border border-white/5 group shadow-2xl">

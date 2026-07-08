@@ -163,9 +163,9 @@ export function BusinessCards() {
           }
         `}
       </style>
-      <section className="relative bg-[#050505] overflow-hidden min-h-[90vh] flex flex-col justify-center py-24 transition-colors duration-500">
+      <section className="relative bg-neutral-100 dark:bg-[#050505] overflow-hidden min-h-[90vh] flex flex-col justify-center py-24 transition-colors duration-500">
         <div className="container mx-auto px-4 mb-12 md:mb-20 z-10">
-          <h2 className="font-serif font-light text-4xl md:text-5xl lg:text-[4.5rem] text-center text-white/90 max-w-4xl mx-auto leading-[1.1] tracking-tight">
+          <h2 className="font-serif font-light text-4xl md:text-5xl lg:text-[4.5rem] text-center text-neutral-900 dark:text-white/90 max-w-4xl mx-auto leading-[1.1] tracking-tight transition-colors duration-500">
             Selected and popular
             <br className="hidden md:block" />
             <span className="md:hidden"> </span>business areas

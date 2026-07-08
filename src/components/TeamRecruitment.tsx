@@ -11,7 +11,7 @@ const teamData = [
     id: 1,
     name: "U Khin Maung Win",
     role: "CEO",
-    quote1: "I always knew I wanted to be a businessman.",
+    quote1: "I always knew I wanxted to be a businessman.",
     quote2:
       "Starting from a young age I made learning a priority- I never skimmed over books, I asked teachers a lot of questions and I observed those around me.",
     desc1:
@@ -77,92 +77,7 @@ const teamData = [
 export function TeamRecruitment() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const { t } = useLanguage();
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
-  const contentsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  const xToBg = useRef<gsap.QuickToFunc | null>(null);
-  const yToBg = useRef<gsap.QuickToFunc | null>(null);
-
-  useEffect(() => {
-    xToBg.current = gsap.quickTo(".bg-parallax", "x", {
-      duration: 1,
-      ease: "power2.out",
-    });
-    yToBg.current = gsap.quickTo(".bg-parallax", "y", {
-      duration: 1,
-      ease: "power2.out",
-    });
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const { clientX, clientY } = e;
-    const x = (clientX / window.innerWidth - 0.5) * 30; // parallax range
-    const y = (clientY / window.innerHeight - 0.5) * 30;
-
-    xToBg.current?.(x);
-    yToBg.current?.(y);
-  };
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      const totalItems = teamData.length;
-
-      // Initial state
-      gsap.set(imagesRef.current.slice(1), { opacity: 0, scale: 1.05 });
-      gsap.set(contentsRef.current.slice(1), {
-        opacity: 0,
-        y: 40,
-        autoAlpha: 0,
-      });
-      gsap.set(contentsRef.current[0], { opacity: 1, y: 0, autoAlpha: 1 });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: `+=${totalItems * 100}%`,
-          pin: true,
-          scrub: 1, // Smooth scrubbing
-        },
-      });
-
-      // Pause at start
-      tl.to({}, { duration: 0.5 });
-
-      for (let i = 0; i < totalItems - 1; i++) {
-        tl.to(
-          imagesRef.current[i],
-          { opacity: 0, scale: 0.95, duration: 1 },
-          `step${i}`,
-        )
-          .to(
-            contentsRef.current[i],
-            { opacity: 0, y: -40, autoAlpha: 0, duration: 1 },
-            `step${i}`,
-          )
-
-          .to(
-            imagesRef.current[i + 1],
-            { opacity: 1, scale: 1, duration: 1 },
-            `step${i}`,
-          )
-          .to(
-            contentsRef.current[i + 1],
-            { opacity: 1, y: 0, autoAlpha: 1, duration: 1 },
-            `step${i}`,
-          );
-
-        // Pause at each item
-        tl.to({}, { duration: 0.5 });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (expandedId !== null) {
@@ -182,106 +97,136 @@ export function TeamRecruitment() {
     };
   }, [expandedId]);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".hanging-card-wrapper",
+        { y: -50, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+          },
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "back.out(1.2)",
+          clearProps: "transform",
+        },
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <>
-      <section
-        ref={sectionRef}
-        onMouseMove={handleMouseMove}
-        className="relative h-screen w-full bg-white dark:bg-[#0a0a0a] py-8 px-4 md:px-12 transition-colors duration-500"
-      >
-        <div className="relative w-full h-full max-w-[1600px] mx-auto overflow-hidden dark:bg-[#1a1a1a] rounded-sm transition-colors duration-500">
-          {/* Iframe Background */}
-          <iframe
-            src="https://colorflow-embed.b-cdn.net/embed.html#e=ydtV_4w4"
-            className="absolute inset-0 w-full h-full border-0 pointer-events-none z-0"
-            title="Background animation"
-            loading="lazy"
-          />
+    <section
+      ref={sectionRef}
+      className="relative w-full min-h-screen bg-[#f8f9fa] dark:bg-[#050505] py-24 md:py-32 overflow-hidden transition-colors duration-500"
+    >
+      {/* Decorative Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[50%] bg-[#e1cd18]/10 dark:bg-[#e1cd18]/5 blur-[120px] rounded-full pointer-events-none" />
 
-          {/* Blueprint Grid Background */}
-          <div className="bg-parallax absolute -inset-12.5 z-0 pointer-events-none opacity-0 dark:opacity-20 transition-opacity duration-500 blueprint-grid-bg" />
-
-          {/* Top Left White Box */}
-          <div className="absolute top-0 left-0 bg-white dark:bg-[#121212] px-6 md:px-12 py-4 md:py-12 z-30 rounded-br-md transition-colors duration-500 border-b border-r border-transparent dark:border-[#B89851]/20">
-            <h2 className="text-[#B89851] dark:text-[#B89851] text-3xl md:text-6xl font-black font-sans leading-tight tracking-tight transition-colors duration-500 uppercase">
-              {t("team.title")}
-            </h2>
+      <div className="relative z-10 max-w-7xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16 md:mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neutral-200 dark:border-[#e1cd18]/30 bg-white/50 dark:bg-[#121212]/50 backdrop-blur-sm mb-6 text-[10px] md:text-xs font-sans font-bold uppercase tracking-widest text-neutral-600 dark:text-[#e1cd18] shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#e1cd18]"></span>
+            {t("team.title") || "Our Leadership"}
           </div>
-
-          {/* Center Person Images (Transparent Background) */}
-          <div className="absolute bottom-0 left-1/2 md:left-[45%] -translate-x-1/2 w-[90vw] md:w-150 h-[75vh] md:h-[85vh] z-10 pointer-events-none">
-            {teamData.map((data, idx) => (
-              <img
-                key={`img-${data.id}`}
-                ref={(el) => {
-                  imagesRef.current[idx] = el;
-                }}
-                src={data.image}
-                alt={data.name}
-                loading="lazy"
-                decoding="async"
-                className="absolute bottom-0 w-full h-full object-contain object-bottom origin-bottom drop-shadow-2xl dark:brightness-90 transition-all duration-500"
-                style={{ willChange: "transform, opacity" }}
-              />
-            ))}
-          </div>
-
-          {/* Right Side Text Content Container */}
-          <div className="absolute left-8 right-4 md:left-auto md:right-16 top-[55%] md:top-1/2 -translate-y-1/2 z-20 md:w-full md:max-w-xl h-auto md:h-125 pointer-events-none">
-            {teamData.map((data, idx) => (
-              <div
-                key={`content-${data.id}`}
-                ref={(el) => {
-                  contentsRef.current[idx] = el;
-                }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 space-y-4 md:space-y-6 w-full text-white font-sans drop-shadow-md bg-black/40 md:bg-black/20 dark:bg-[#121212]/80 p-5 md:p-8 rounded-lg backdrop-blur-md dark:border dark:border-[#B89851]/30 pointer-events-auto transition-colors duration-500"
-                style={{ willChange: "transform, opacity" }}
-              >
-                <div>
-                  <p className="font-mono text-white/80 dark:text-[#B89851]/80 text-xs tracking-widest uppercase mb-1 transition-colors duration-500">
-                    {data.role}
-                  </p>
-                  <h3 className="font-serif text-2xl md:text-4xl dark:text-[#B89851] transition-colors duration-500">
-                    {data.name}
-                  </h3>
-                </div>
-                <div className="space-y-2 md:space-y-3">
-                  <p className="font-medium text-base md:text-xl tracking-wide leading-snug italic opacity-90 text-[#e0f2fe] dark:text-neutral-300 transition-colors duration-500 line-clamp-2 md:line-clamp-none">
-                    "{data.quote1}"
-                  </p>
-                  <p className="font-medium text-base md:text-xl tracking-wide leading-snug italic opacity-90 text-[#e0f2fe] dark:text-neutral-300 transition-colors duration-500 line-clamp-2 md:line-clamp-none">
-                    "{data.quote2}"
-                  </p>
-                </div>
-                <div className="space-y-2 md:space-y-3 hidden sm:block">
-                  <p className="text-xs md:text-sm font-light opacity-90 leading-relaxed dark:text-neutral-400 transition-colors duration-500">
-                    {data.desc1}
-                  </p>
-                  <p className="text-xs md:text-sm font-light opacity-90 leading-relaxed dark:text-neutral-400 transition-colors duration-500">
-                    {data.desc2}
-                  </p>
-                </div>
-                {data.readMore && (
-                  <button
-                    onClick={() => setExpandedId(data.id)}
-                    className="mt-2 md:mt-4 px-4 md:px-6 py-1.5 md:py-2 bg-white/10 dark:bg-[#B89851]/10 hover:bg-white/20 dark:hover:bg-[#B89851]/20 text-white dark:text-[#B89851] rounded border border-white/30 dark:border-[#B89851]/30 transition-colors text-xs md:text-sm tracking-widest uppercase font-bold"
-                  >
-                    Read More
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+          <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-black font-sans uppercase tracking-tighter text-neutral-900 dark:text-white leading-[0.9] max-w-4xl mx-auto">
+            DRIVING <span className="text-[#e1cd18]">INNOVATION</span>
+            <br className="hidden md:block" /> AND SUSTAINABLE GROWTH
+          </h2>
+          <p className="mt-6 text-sm md:text-base text-neutral-600 dark:text-neutral-400 font-medium max-w-2xl mx-auto px-4">
+            With decades of experience and visionary planning, our team leads
+            the way in modern business, engineering, and lifestyle development.
+          </p>
         </div>
-      </section>
 
-      {/* Read More Modal */}
+        {/* Cards & Line Container */}
+        <div className="relative w-full flex flex-col md:block items-center gap-16 pt-10 pb-10 md:pt-10 md:h-[700px] mt-10">
+          {/* SVG String (Desktop) */}
+          <svg
+            className="hidden md:block absolute top-0 left-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+          >
+            <path
+              d="M -10 20 Q 50 100 110 20"
+              fill="none"
+              className="stroke-neutral-300 dark:stroke-neutral-700"
+              strokeWidth="0.3"
+            />
+          </svg>
+
+          {/* Vertical String (Mobile) */}
+          <div className="md:hidden absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-full bg-neutral-300 dark:bg-neutral-800 z-0"></div>
+
+          {/* Combined Cards */}
+          {teamData.map((person, idx) => {
+            const xPos = idx === 0 ? 20 : idx === 1 ? 50 : 80;
+            const yPos = idx === 1 ? 60 : 50;
+            const rotationDesktop =
+              idx === 0
+                ? "md:-rotate-6"
+                : idx === 1
+                  ? "md:rotate-2"
+                  : "md:rotate-6";
+            const rotationMobile = idx % 2 === 0 ? "-rotate-3" : "rotate-3";
+
+            return (
+              <div
+                key={person.id}
+                className="hanging-card-wrapper relative md:absolute z-10 w-fit md:left-[var(--desk-x)] md:top-[var(--desk-y)]"
+                style={
+                  {
+                    "--desk-x": `${xPos}%`,
+                    "--desk-y": `calc(${yPos}% - 14px)`,
+                  } as React.CSSProperties
+                }
+              >
+                <div
+                  onClick={() => setExpandedId(person.id)}
+                  className={`relative group cursor-pointer transition-all duration-500 hover:z-30 hover:-translate-y-2 md:hover:-translate-y-4 hover:rotate-0 md:-translate-x-1/2 ${rotationMobile} ${rotationDesktop}`}
+                >
+                  {/* The Pin */}
+                  <div className="absolute -top-5 md:-top-6 left-1/2 -translate-x-1/2 w-6 md:w-8 h-8 md:h-10 bg-[#e1cd18] dark:bg-[#e1cd18] rounded-t-md rounded-b-sm shadow-md flex items-start justify-center pt-2 z-20 transition-colors origin-bottom">
+                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#f8f9fa] dark:bg-[#050505] shadow-inner"></div>
+                  </div>
+
+                  {/* The Card */}
+                  <div className="bg-white dark:bg-[#121212] p-3 md:p-4 pb-5 md:pb-6 rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-black/80 border border-neutral-100 dark:border-neutral-800/60 w-[280px] sm:w-[320px] lg:w-[320px] transition-all duration-300 group-hover:shadow-2xl group-hover:border-[#e1cd18]/50">
+                    <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-neutral-100 dark:bg-[#1a1a1a] border border-neutral-100 dark:border-neutral-800">
+                      <img
+                        src={person.image}
+                        alt={person.name}
+                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="mt-4 md:mt-5 text-left px-1">
+                      <h3 className="text-lg md:text-xl font-bold font-sans text-neutral-900 dark:text-white group-hover:text-[#e1cd18] transition-colors">
+                        {person.name}
+                      </h3>
+                      <p className="text-xs md:text-sm text-neutral-500 dark:text-neutral-400 mt-1 font-medium">
+                        {person.role}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Read More Modal (Detailed Card Pop-up) */}
       {expandedId !== null && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
-          <div className="bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#e6c875] w-full max-w-3xl max-h-[85vh] rounded-lg shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(184,152,81,0.25)] flex flex-col overflow-hidden relative transition-colors duration-500 border dark:border-[#B89851]/20">
+          <div className="bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#e6c875] w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[85vh] rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(225,205,24,0.2)] flex flex-col overflow-hidden relative transition-colors duration-500 border border-neutral-100 dark:border-[#e1cd18]/20">
             <button
               onClick={() => setExpandedId(null)}
-              className="absolute top-4 right-4 p-2 text-neutral-500 dark:text-[#B89851]/60 hover:text-neutral-900 dark:hover:text-[#B89851] hover:bg-neutral-100 dark:hover:bg-[#B89851]/10 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 p-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm text-neutral-500 dark:text-[#e1cd18] hover:text-neutral-900 dark:hover:text-[#e1cd18] hover:bg-neutral-100 dark:hover:bg-[#e1cd18]/20 rounded-full transition-colors z-20"
               title="Close modal"
               aria-label="Close modal"
             >
@@ -293,33 +238,48 @@ export function TeamRecruitment() {
               .map((data) => (
                 <div
                   key={data.id}
-                  className="overflow-y-auto p-8 md:p-12"
-                  data-lenis-prevent="true"
+                  className="flex flex-col md:flex-row w-full h-full overflow-hidden"
                 >
-                  <p className="font-mono text-[#B89851] dark:text-[#B89851] font-bold text-sm tracking-widest uppercase mb-2 transition-colors duration-500">
-                    {data.role}
-                  </p>
-                  <h3 className="font-serif text-4xl md:text-5xl font-light mb-8 text-neutral-900 dark:text-[#B89851] transition-colors duration-500">
-                    {data.name}
-                  </h3>
+                  {/* Left: Image */}
+                  <div className="w-full md:w-2/5 h-64 md:h-full bg-neutral-100 dark:bg-[#1a1a1a] relative shrink-0">
+                    <img
+                      src={data.image}
+                      alt={data.name}
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:hidden"></div>
+                  </div>
 
-                  <div className="space-y-6 text-neutral-700 dark:text-neutral-300 font-light leading-relaxed text-lg transition-colors duration-500">
-                    <p className="text-2xl font-medium italic text-neutral-800 dark:text-[#B89851]/90 mb-8 pb-8 border-b border-neutral-200 dark:border-[#B89851]/20 transition-colors duration-500">
-                      "{data.quote1} {data.quote2}"
+                  {/* Right: Content */}
+                  <div
+                    className="w-full md:w-3/5 p-6 md:p-12 overflow-y-auto"
+                    data-lenis-prevent="true"
+                  >
+                    <p className="font-sans font-bold text-[#e1cd18] dark:text-[#e1cd18] text-sm tracking-widest uppercase mb-2 transition-colors duration-500">
+                      {data.role}
                     </p>
+                    <h3 className="font-sans text-3xl md:text-5xl font-black mb-6 md:mb-8 tracking-tight text-neutral-900 dark:text-white transition-colors duration-500">
+                      {data.name}
+                    </h3>
 
-                    <p>{data.desc1}</p>
-                    <p>{data.desc2}</p>
+                    <div className="space-y-6 text-neutral-700 dark:text-neutral-300 font-medium leading-relaxed text-base md:text-lg transition-colors duration-500">
+                      <p className="text-xl md:text-2xl font-serif italic text-neutral-800 dark:text-white/90 mb-8 pb-8 border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-500">
+                        "{data.quote1} {data.quote2}"
+                      </p>
 
-                    {data.readMore?.map((paragraph, i) => (
-                      <p key={i}>{paragraph}</p>
-                    ))}
+                      <p>{data.desc1}</p>
+                      <p>{data.desc2}</p>
+
+                      {data.readMore?.map((paragraph, i) => (
+                        <p key={i}>{paragraph}</p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }

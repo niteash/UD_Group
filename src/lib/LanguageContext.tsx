@@ -44,6 +44,20 @@ const translations: Record<Language, Record<string, string>> = {
     "about.amara.title": "Amara Garden City – A Vision for Modern Living",
     "about.amara.desc":
       "Located on a 60-acre site, Amara Garden City is our flagship real estate development, designed to offer a high-quality residential experience in Mandalay. Our project aims to create a thriving community with modern infrastructure, green spaces, and premium facilities.",
+    "scroll.eyebrow": "SITE LOCATION",
+    "scroll.heading": "INTEGRATED SPACES",
+    "scroll.item1":
+      "Prime Location: Conveniently situated with easy access to essential services.",
+    "scroll.item2":
+      "Sustainable Design: Energy-efficient buildings, green rooftops, and eco-friendly features.",
+    "scroll.item3": "Luxury Living: High-end residences with modern amenities.",
+    "scroll.item4":
+      "Investment Potential: Strong growth prospects in Mandalay’s booming real estate market.",
+    "scroll.item5": "High return on investment (ROI) potential.",
+    "scroll.item6": "Exclusive early-bird offers for investors.",
+    "scroll.item7": "A well-planned, future-proof community development.",
+    "scroll.item8":
+      "Partnerships: Open for collaborations with developers, realtors, and financial institutions.",
   },
   MM: {
     "nav.company": "ကုမ္ပဏီ",
@@ -81,6 +95,24 @@ const translations: Record<Language, Record<string, string>> = {
       "Amara Garden City – ခေတ်မီနေထိုင်မှုဘဝအတွက် မျှော်မှန်းချက်",
     "about.amara.desc":
       "ဧက ၆၀ ကျယ်ဝန်းသော မြေနေရာတွင် တည်ရှိသည့် Amara Garden City သည် မန္တလေးမြို့တွင် အရည်အသွေးမြင့် လူနေမှုအတွေ့အကြုံကို ပေးစွမ်းနိုင်ရန် ဒီဇိုင်းထုတ်ထားသော ကျွန်ုပ်တို့၏ အထင်ကရ အိမ်ခြံမြေစီမံကိန်းဖြစ်သည်။ ကျွန်ုပ်တို့၏စီမံကိန်းသည် ခေတ်မီအခြေခံအဆောက်အအုံများ၊ စိမ်းလန်းသောနေရာများနှင့် ပရီမီယံပစ္စည်းများဖြင့် စည်ကားသော လူ့အသိုင်းအဝိုင်းတစ်ခုကို ဖန်တီးရန် ရည်ရွယ်ပါသည်။",
+    "scroll.eyebrow": "တည်နေရာ",
+    "scroll.heading": "ပေါင်းစပ်နေရာများ",
+    "scroll.item1":
+      "အကောင်းဆုံးတည်နေရာ: မရှိမဖြစ်လိုအပ်သော ဝန်ဆောင်မှုများကို အလွယ်တကူရယူနိုင်သော အချက်အချာကျသောနေရာ။",
+    "scroll.item2":
+      "ရေရှည်တည်တံ့သော ဒီဇိုင်း: စွမ်းအင်သက်သာသော အဆောက်အအုံများ၊ စိမ်းလန်းသော အမိုးများနှင့် သဘာဝပတ်ဝန်းကျင်နှင့် လိုက်လျောညီထွေရှိသော အင်္ဂါရပ်များ။",
+    "scroll.item3":
+      "ဇိမ်ခံနေထိုင်မှု: ခေတ်မီအသုံးအဆောင်များပါရှိသော အဆင့်မြင့်လူနေအိမ်များ။",
+    "scroll.item4":
+      "ရင်းနှီးမြှုပ်နှံမှု အလားအလာ: မန္တလေး၏ တိုးတက်နေသော အိမ်ခြံမြေဈေးကွက်တွင် ခိုင်မာသောတိုးတက်မှုအလားအလာများ။",
+    "scroll.item5":
+      "ရင်းနှီးမြှုပ်နှံမှုအပေါ် မြင့်မားသောပြန်လည်ရရှိမှု (ROI) အလားအလာ။",
+    "scroll.item6":
+      "ရင်းနှီးမြှုပ်နှံသူများအတွက် သီးသန့်စောစီးစွာရင်းနှီးမြှုပ်နှံမှု အစီအစဉ်များ။",
+    "scroll.item7":
+      "စနစ်တကျရေးဆွဲထားသော၊ အနာဂတ်အတွက်ပြင်ဆင်ထားသော လူ့အဖွဲ့အစည်းဖွံ့ဖြိုးတက်မှု။",
+    "scroll.item8":
+      "မိတ်ဖက်ပူးပေါင်းဆောင်ရွက်မှုများ: တည်ဆောက်သူများ၊ အိမ်ခြံမြေအကျိုးဆောင်များနှင့် ဘဏ္ဍာရေးအဖွဲ့အစည်းများနှင့် ပူးပေါင်းဆောင်ရွက်ရန် ဖွင့်လှစ်ထားပါသည်။",
   },
   ZH: {
     "nav.company": "公司",
@@ -117,6 +149,16 @@ const translations: Record<Language, Record<string, string>> = {
     "about.amara.title": "Amara Garden City – 现代生活愿景",
     "about.amara.desc":
       "Amara Garden City 占地 60 英亩，是我们旗舰房地产开发项目，旨在为曼德勒提供高品质的住宅体验。我们的项目旨在创建一个拥有现代化基础设施、绿地和优质设施的繁荣社区。",
+    "scroll.eyebrow": "地点",
+    "scroll.heading": "综合空间",
+    "scroll.item1": "黄金地段: 地理位置优越，轻松获得基本服务。",
+    "scroll.item2": "可持续设计: 节能建筑、绿色屋顶和环保特色。",
+    "scroll.item3": "奢华生活: 配备现代化设施的高端住宅。",
+    "scroll.item4": "投资潜力: 曼德勒繁荣的房地产市场增长前景广阔。",
+    "scroll.item5": "高投资回报率（ROI）潜力。",
+    "scroll.item6": "为投资者提供独家早鸟优惠。",
+    "scroll.item7": "规划完善、面向未来的社区发展。",
+    "scroll.item8": "合作伙伴关系: 欢迎与开发商、房地产经纪人和金融机构合作。",
   },
 };
 

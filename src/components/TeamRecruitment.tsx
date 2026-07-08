@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { X } from "lucide-react";
 import { useLanguage } from "../lib/LanguageContext";
+import { AnimatePresence, motion } from "motion/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -196,7 +197,11 @@ export function TeamRecruitment() {
                   </div>
 
                   {/* The Card */}
-                  <div className="bg-white dark:bg-[#121212] p-3 md:p-4 pb-5 md:pb-6 rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-black/80 border border-neutral-100 dark:border-neutral-800/60 w-[280px] sm:w-[320px] lg:w-[320px] transition-all duration-300 group-hover:shadow-2xl group-hover:border-[#e1cd18]/50">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white dark:bg-[#121212] p-3 md:p-4 pb-5 md:pb-6 rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-black/80 border border-neutral-100 dark:border-neutral-800/60 w-[280px] sm:w-[320px] lg:w-[320px] transition-all duration-300 group-hover:shadow-2xl group-hover:border-[#e1cd18]/50"
+                  >
                     <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-neutral-100 dark:bg-[#1a1a1a] border border-neutral-100 dark:border-neutral-800">
                       <img
                         src={person.image}
@@ -212,7 +217,7 @@ export function TeamRecruitment() {
                         {person.role}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             );
@@ -221,65 +226,78 @@ export function TeamRecruitment() {
       </div>
 
       {/* Read More Modal (Detailed Card Pop-up) */}
-      {expandedId !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
-          <div className="bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#e6c875] w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[85vh] rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(225,205,24,0.2)] flex flex-col overflow-hidden relative transition-colors duration-500 border border-neutral-100 dark:border-[#e1cd18]/20">
-            <button
-              onClick={() => setExpandedId(null)}
-              className="absolute top-4 right-4 p-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm text-neutral-500 dark:text-[#e1cd18] hover:text-neutral-900 dark:hover:text-[#e1cd18] hover:bg-neutral-100 dark:hover:bg-[#e1cd18]/20 rounded-full transition-colors z-20"
-              title="Close modal"
-              aria-label="Close modal"
+      <AnimatePresence>
+        {expandedId !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 50, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 50, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#e6c875] w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[85vh] rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(225,205,24,0.2)] flex flex-col overflow-hidden relative transition-colors duration-500 border border-neutral-100 dark:border-[#e1cd18]/20"
             >
-              <X size={24} />
-            </button>
+              <button
+                onClick={() => setExpandedId(null)}
+                className="absolute top-4 right-4 p-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm text-neutral-500 dark:text-[#e1cd18] hover:text-neutral-900 dark:hover:text-[#e1cd18] hover:bg-neutral-100 dark:hover:bg-[#e1cd18]/20 rounded-full transition-colors z-20"
+                title="Close modal"
+                aria-label="Close modal"
+              >
+                <X size={24} />
+              </button>
 
-            {teamData
-              .filter((d) => d.id === expandedId)
-              .map((data) => (
-                <div
-                  key={data.id}
-                  className="flex flex-col md:flex-row w-full h-full overflow-hidden"
-                >
-                  {/* Left: Image */}
-                  <div className="w-full md:w-2/5 h-64 md:h-full bg-neutral-100 dark:bg-[#1a1a1a] relative shrink-0">
-                    <img
-                      src={data.image}
-                      alt={data.name}
-                      className="absolute inset-0 w-full h-full object-cover object-top"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:hidden"></div>
-                  </div>
-
-                  {/* Right: Content */}
+              {teamData
+                .filter((d) => d.id === expandedId)
+                .map((data) => (
                   <div
-                    className="w-full md:w-3/5 p-6 md:p-12 overflow-y-auto"
-                    data-lenis-prevent="true"
+                    key={data.id}
+                    className="flex flex-col md:flex-row w-full h-full md:h-auto overflow-hidden"
                   >
-                    <p className="font-sans font-bold text-[#e1cd18] dark:text-[#e1cd18] text-sm tracking-widest uppercase mb-2 transition-colors duration-500">
-                      {data.role}
-                    </p>
-                    <h3 className="font-sans text-3xl md:text-5xl font-black mb-6 md:mb-8 tracking-tight text-neutral-900 dark:text-white transition-colors duration-500">
-                      {data.name}
-                    </h3>
+                    {/* Left: Image */}
+                    <div className="w-full md:w-2/5 h-64 md:h-auto md:min-h-[500px] bg-neutral-100 dark:bg-[#1a1a1a] relative shrink-0">
+                      <img
+                        src={data.image}
+                        alt={data.name}
+                        className="absolute inset-0 w-full h-full object-cover object-top"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:hidden"></div>
+                    </div>
 
-                    <div className="space-y-6 text-neutral-700 dark:text-neutral-300 font-medium leading-relaxed text-base md:text-lg transition-colors duration-500">
-                      <p className="text-xl md:text-2xl font-serif italic text-neutral-800 dark:text-white/90 mb-8 pb-8 border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-500">
-                        "{data.quote1} {data.quote2}"
+                    {/* Right: Content */}
+                    <div
+                      className="w-full md:w-3/5 p-6 md:p-12 overflow-y-auto"
+                      data-lenis-prevent="true"
+                    >
+                      <p className="font-sans font-bold text-[#e1cd18] dark:text-[#e1cd18] text-sm tracking-widest uppercase mb-2 transition-colors duration-500">
+                        {data.role}
                       </p>
+                      <h3 className="font-sans text-3xl md:text-5xl font-black mb-6 md:mb-8 tracking-tight text-neutral-900 dark:text-white transition-colors duration-500">
+                        {data.name}
+                      </h3>
 
-                      <p>{data.desc1}</p>
-                      <p>{data.desc2}</p>
+                      <div className="space-y-6 text-neutral-700 dark:text-neutral-300 font-medium leading-relaxed text-base md:text-lg transition-colors duration-500">
+                        <p className="text-xl md:text-2xl font-serif italic text-neutral-800 dark:text-white/90 mb-8 pb-8 border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-500">
+                          "{data.quote1} {data.quote2}"
+                        </p>
 
-                      {data.readMore?.map((paragraph, i) => (
-                        <p key={i}>{paragraph}</p>
-                      ))}
+                        <p>{data.desc1}</p>
+                        <p>{data.desc2}</p>
+
+                        {data.readMore?.map((paragraph, i) => (
+                          <p key={i}>{paragraph}</p>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
+                ))}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

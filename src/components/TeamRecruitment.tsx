@@ -239,7 +239,7 @@ export function TeamRecruitment() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 50, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#e6c875] w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[85vh] rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(225,205,24,0.2)] flex flex-col overflow-hidden relative transition-colors duration-500 border border-neutral-100 dark:border-[#e1cd18]/20"
+              className="bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#e6c875] w-full max-w-5xl h-[90vh] md:h-[85vh] rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(225,205,24,0.2)] flex flex-col overflow-hidden relative transition-colors duration-500 border border-neutral-100 dark:border-[#e1cd18]/20"
             >
               <button
                 onClick={() => setExpandedId(null)}
@@ -255,10 +255,10 @@ export function TeamRecruitment() {
                 .map((data) => (
                   <div
                     key={data.id}
-                    className="flex flex-col md:flex-row w-full h-full md:h-auto overflow-hidden"
+                    className="flex flex-col md:flex-row w-full h-full overflow-hidden"
                   >
                     {/* Left: Image */}
-                    <div className="w-full md:w-2/5 h-64 md:h-auto md:min-h-[500px] bg-neutral-100 dark:bg-[#1a1a1a] relative shrink-0">
+                    <div className="w-full md:w-2/5 h-64 md:h-full bg-neutral-100 dark:bg-[#1a1a1a] relative shrink-0">
                       <img
                         src={data.image}
                         alt={data.name}

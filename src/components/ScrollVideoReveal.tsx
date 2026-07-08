@@ -12,46 +12,85 @@ export function ScrollVideoReveal() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=120%",
-        pin: true,
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 1024px)", () => {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=120%",
+          pin: true,
+        });
+
+        gsap.fromTo(
+          ".reveal-header",
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 20%",
+              end: "top -10%",
+              scrub: true,
+            },
+          },
+        );
+
+        gsap.fromTo(
+          ".reveal-item",
+          { opacity: 0, y: 30, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            stagger: 0.05,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 10%",
+              end: "top -40%",
+              scrub: true,
+            },
+          },
+        );
       });
 
-      gsap.fromTo(
-        ".reveal-header",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 20%",
-            end: "top -10%",
-            scrub: true,
+      mm.add("(max-width: 1023px)", () => {
+        gsap.fromTo(
+          ".reveal-header",
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              end: "top 50%",
+              scrub: true,
+            },
           },
-        },
-      );
+        );
 
-      gsap.fromTo(
-        ".reveal-item",
-        { opacity: 0, y: 30, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.05,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 10%",
-            end: "top -40%",
-            scrub: true,
+        gsap.fromTo(
+          ".reveal-item",
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              end: "center center",
+              scrub: true,
+            },
           },
-        },
-      );
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -60,7 +99,7 @@ export function ScrollVideoReveal() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen overflow-hidden bg-[#050505] transition-colors duration-500 flex items-center justify-center"
+      className="relative w-full min-h-screen lg:h-screen overflow-hidden bg-[#050505] transition-colors duration-500 flex items-center justify-center py-20 lg:py-0"
     >
       <ThreeStarsBackground />
 

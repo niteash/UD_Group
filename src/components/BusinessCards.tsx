@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { LiquidImage } from "./LiquidImage";
-import { CanvasErrorBoundary } from "./CanvasErrorBoundary";
 import { MagneticButton } from "./MagneticButton";
 
 const businessAreas = {

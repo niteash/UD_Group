@@ -301,7 +301,7 @@ function SphericalGallery({
     };
   }, [gl]);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y = THREE.MathUtils.damp(
         groupRef.current.rotation.y,

@@ -90,7 +90,7 @@ function BusinessCardItem({
         onClick={onClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative w-[320px] md:w-[420px] h-full rounded-sm overflow-hidden group border border-transparent dark:border-[#B89851]/20 transition-colors duration-500 text-left cursor-pointer"
+        className="relative w-[280px] sm:w-[320px] md:w-[420px] h-full rounded-sm overflow-hidden group border border-transparent dark:border-[#B89851]/20 transition-colors duration-500 text-left cursor-pointer"
       >
         <div className="absolute inset-0 bg-neutral-200 dark:bg-[#1a1a1a] -z-10 transition-colors duration-500" />
 
@@ -118,19 +118,22 @@ function BusinessCardItem({
               "linear-gradient(180deg, rgba(26,26,26,0) 35%, rgba(26,26,26,0.95) 100%)",
           }}
         />
-        <span className="absolute top-6 left-6 font-mono text-white/70 dark:text-[#B89851]/80 text-xs z-20 pointer-events-none transition-colors duration-500">
+        <span className="absolute top-4 left-4 md:top-6 md:left-6 font-mono text-white/70 dark:text-[#B89851]/80 text-[10px] md:text-xs z-20 pointer-events-none transition-colors duration-500">
           ( {card.index} )
         </span>
-        <div className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
-          <h3 className="font-serif font-light text-white dark:text-[#B89851] text-2xl md:text-3xl mb-3 transition-colors duration-500">
+        <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 z-20 pointer-events-none">
+          <h3 className="font-serif font-light text-white dark:text-[#B89851] text-xl md:text-3xl mb-2 md:mb-3 transition-colors duration-500">
             {card.title}
           </h3>
-          <p className="font-sans text-white/70 dark:text-neutral-300 text-sm font-light leading-relaxed pr-12 transition-colors duration-500">
+          <p className="font-sans text-white/70 dark:text-neutral-300 text-xs md:text-sm font-light leading-relaxed pr-10 md:pr-12 transition-colors duration-500 line-clamp-3 md:line-clamp-none">
             {card.body}
           </p>
         </div>
-        <span className="absolute bottom-8 right-8 w-12 h-12 rounded-full bg-white/10 dark:bg-[#B89851]/20 backdrop-blur-md border border-white/20 dark:border-[#B89851]/30 grid place-items-center text-white dark:text-[#B89851] group-hover:bg-white dark:group-hover:bg-[#B89851] group-hover:text-neutral-900 dark:group-hover:text-white transition-colors z-20 pointer-events-none duration-500">
-          <ArrowRight size={18} strokeWidth={1.5} />
+        <span className="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 dark:bg-[#B89851]/20 backdrop-blur-md border border-white/20 dark:border-[#B89851]/30 grid place-items-center text-white dark:text-[#B89851] group-hover:bg-white dark:group-hover:bg-[#B89851] group-hover:text-neutral-900 dark:group-hover:text-white transition-colors z-20 pointer-events-none duration-500">
+          <ArrowRight
+            className="w-4 h-4 md:w-[18px] md:h-[18px]"
+            strokeWidth={1.5}
+          />
         </span>
       </button>
     </TiltCard>
@@ -216,17 +219,17 @@ export function BusinessCards() {
         ref={sectionRef}
         className="relative bg-neutral-100 dark:bg-[#0f0f0f] overflow-hidden h-screen flex flex-col justify-center transition-colors duration-500"
       >
-        <div className="flex items-center gap-6 px-6 md:px-10 pt-10 pb-12 shrink-0">
-          <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-neutral-900 dark:bg-[#1a1a1a] rounded-full text-white dark:text-[#B89851] animate-[spin_8s_linear_infinite] border dark:border-[#B89851]/30 transition-colors duration-500">
-            <span className="font-serif text-xl md:text-2xl font-medium tracking-widest">
+        <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 pt-8 md:pt-10 pb-8 md:pb-12 shrink-0">
+          <div className="w-14 h-14 md:w-20 md:h-20 flex items-center justify-center bg-neutral-900 dark:bg-[#1a1a1a] rounded-full text-white dark:text-[#B89851] animate-[spin_8s_linear_infinite] border dark:border-[#B89851]/30 transition-colors duration-500 shrink-0">
+            <span className="font-serif text-lg md:text-2xl font-medium tracking-widest">
               UD
             </span>
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500 dark:text-[#B89851]/60 mb-2 transition-colors duration-500">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500 dark:text-[#B89851]/60 mb-1 md:mb-2 transition-colors duration-500">
               {businessAreas.eyebrow}
             </p>
-            <h2 className="font-serif font-light text-3xl md:text-5xl text-neutral-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#B89851] dark:to-[#e6c875] tracking-tight transition-colors duration-500">
+            <h2 className="font-serif font-light text-2xl md:text-5xl text-neutral-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#B89851] dark:to-[#e6c875] tracking-tight transition-colors duration-500">
               {businessAreas.heading}
             </h2>
           </div>
@@ -234,7 +237,7 @@ export function BusinessCards() {
 
         <div
           ref={trackRef}
-          className="relative flex gap-6 px-6 md:px-10 pb-16 w-fit h-[60vh] min-h-[400px]"
+          className="relative flex gap-4 md:gap-6 px-4 md:px-10 pb-12 md:pb-16 w-fit h-[60vh] min-h-[350px] md:min-h-[400px]"
         >
           {businessAreas.cards.map((card) => (
             <BusinessCardItem

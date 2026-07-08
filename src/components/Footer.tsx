@@ -1,7 +1,6 @@
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
-import { FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa6";
 import { LogoSVG } from "./Logo";
-
+import { FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa6";
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -29,9 +28,9 @@ export function Footer() {
         </div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
           {/* Brand & Social */}
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start lg:col-span-3">
             <div className="text-white mb-6">
               <LogoSVG className="w-16 h-auto text-white" />
             </div>
@@ -53,7 +52,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="lg:col-span-2">
             <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-white mb-6">
               Navigation
             </h3>
@@ -79,7 +78,7 @@ export function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="lg:col-span-3">
             <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-white mb-6">
               Contact
             </h3>
@@ -106,25 +105,46 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div>
+          {/* Query Form */}
+          <div className="lg:col-span-4">
             <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-white mb-6">
-              Newsletter
+              Send a Query
             </h3>
             <p className="text-sm font-light mb-4 text-neutral-400">
-              Subscribe to receive the latest updates and news.
+              Have questions? We'd love to hear from you.
             </p>
             <form
               className="flex flex-col gap-3"
               onSubmit={(e) => e.preventDefault()}
             >
               <input
-                type="email"
-                placeholder="Your email address"
-                className="bg-white/5 border border-white/10 rounded px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] transition-colors"
+                type="text"
+                placeholder="Full Name"
+                required
+                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300"
               />
-              <button className="bg-[#B89851] text-black font-mono text-xs font-bold uppercase tracking-widest px-4 py-3 rounded hover:bg-white transition-colors cursor-pointer">
-                Subscribe
+              <div className="grid grid-cols-2 gap-3">
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300"
+                />
+                <input
+                  type="tel"
+                  placeholder="Mobile Number"
+                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300"
+                />
+              </div>
+              <textarea
+                placeholder="Your Query..."
+                rows={3}
+                required
+                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300 resize-none"
+              ></textarea>
+              <button className="bg-[#B89851] text-black font-mono text-xs font-bold uppercase tracking-widest px-4 py-3 mt-1 rounded-lg hover:bg-white transition-colors cursor-pointer flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(184,152,81,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]">
+                Submit Query
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
           </div>

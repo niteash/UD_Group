@@ -4,10 +4,9 @@ import { Image as DreiImage, Environment } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Globe } from "lucide-react";
-import { CanvasErrorBoundary } from "./CanvasErrorBoundary";
 
 const strengths = {
-  eyebrow: "04 / PROJECTS",
+  eyebrow: "04 / Strengths",
   heading: "BUILDING THE UNIMAGINABLE",
   subheading: "",
   cards: [
@@ -79,25 +78,45 @@ export const galleryItems: GalleryItem[] = Array.from(
 function GalleryCard({
   item,
   setSelectedItem,
+  isMobile,
 }: {
   item: GalleryItem;
   setSelectedItem: (item: GalleryItem) => void;
+  isMobile: boolean;
 }) {
   const ref = useRef<any>(null);
   const [hovered, setHovered] = useState(false);
 
+  const scaleMultiplier = isMobile ? 0.5 : 1;
+  const baseScale = new THREE.Vector3(
+    8 * scaleMultiplier,
+    5.33 * scaleMultiplier,
+    1,
+  );
+
   useEffect(() => {
     if (ref.current) {
-      ref.current.position.set(...item.position);
+      // Adjust position radius for mobile
+      const radiusMultiplier = isMobile ? 0.6 : 1;
+      const [x, y, z] = item.position;
+      ref.current.position.set(
+        x * radiusMultiplier,
+        y * scaleMultiplier,
+        z * radiusMultiplier,
+      );
       ref.current.lookAt(0, 0, 0);
     }
-  }, [item]);
+  }, [item, isMobile, scaleMultiplier]);
 
   useFrame(() => {
     if (ref.current) {
       const targetScale = hovered ? 1.05 : 1;
       ref.current.scale.lerp(
-        new THREE.Vector3(8 * targetScale, 5.33 * targetScale, 1),
+        new THREE.Vector3(
+          baseScale.x * targetScale,
+          baseScale.y * targetScale,
+          1,
+        ),
         0.1,
       );
     }
@@ -111,7 +130,7 @@ function GalleryCard({
       toneMapped={true}
       zoom={1}
       segments={1}
-      scale={[8, 5.33]}
+      scale={[baseScale.x, baseScale.y]}
       onClick={(e) => {
         e.stopPropagation();
         setSelectedItem(item);
@@ -132,8 +151,10 @@ function GalleryCard({
 
 function SphericalGallery({
   setSelectedItem,
+  isMobile,
 }: {
   setSelectedItem: (item: GalleryItem) => void;
+  isMobile: boolean;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const targetRotation = useRef({ x: 0, y: 0 });
@@ -280,7 +301,7 @@ function SphericalGallery({
     };
   }, [gl]);
 
-  useFrame((_state, delta) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y = THREE.MathUtils.damp(
         groupRef.current.rotation.y,
@@ -304,6 +325,7 @@ function SphericalGallery({
           key={item.id}
           item={item}
           setSelectedItem={setSelectedItem}
+          isMobile={isMobile}
         />
       ))}
     </group>
@@ -342,18 +364,18 @@ function DetailView({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: "10%" }}
           transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[1000] bg-white dark:bg-ink text-neutral-900 dark:text-gold flex flex-col pointer-events-auto ui-layer transition-colors duration-500 overflow-y-auto"
+          className="fixed inset-0 z-[1000] bg-white dark:bg-[#121212] text-neutral-900 dark:text-[#B89851] flex flex-col pointer-events-auto ui-layer transition-colors duration-500 overflow-y-auto"
           data-lenis-prevent="true"
         >
           {/* Header */}
           <div className="sticky top-0 left-0 right-0 p-6 md:p-8 flex justify-between items-center z-50 w-full pointer-events-none">
             <div className="w-full max-w-7xl mx-auto flex justify-between items-center pointer-events-none">
-              <h2 className="text-xl font-serif tracking-wide hidden md:block dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-gold dark:to-gold-light">
+              <h2 className="text-xl font-serif tracking-wide hidden md:block dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#B89851] dark:to-[#e6c875]">
                 Strength Focus
               </h2>
               <button
                 onClick={() => setSelectedItem(null)}
-                className="group flex items-center gap-3 px-6 py-3 bg-white/90 dark:bg-ink/90 backdrop-blur-sm border border-neutral-200 dark:border-gold/30 rounded-full hover:bg-neutral-900 hover:text-white dark:hover:bg-gold dark:hover:text-white transition-all duration-300 focus:outline-none ml-auto pointer-events-auto shadow-xl"
+                className="group flex items-center gap-3 px-6 py-3 bg-white/90 dark:bg-[#1a1a1a]/90 backdrop-blur-sm border border-neutral-200 dark:border-[#B89851]/30 rounded-full hover:bg-neutral-900 hover:text-white dark:hover:bg-[#B89851] dark:hover:text-white transition-all duration-300 focus:outline-none ml-auto pointer-events-auto shadow-xl"
               >
                 <Globe size={18} className="animate-pulse transition-colors" />
                 <span className="font-mono text-xs font-bold tracking-widest uppercase mt-0.5 group-hover:tracking-[0.15em] transition-all duration-300">
@@ -397,12 +419,12 @@ function DetailView({
                   }}
                 >
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="text-sm font-mono tracking-widest text-neutral-500 dark:text-gold/70 inline-block border border-neutral-200 dark:border-gold/30 rounded-full px-4 py-1">
+                    <div className="text-sm font-mono tracking-widest text-neutral-500 dark:text-[#B89851]/70 inline-block border border-neutral-200 dark:border-[#B89851]/30 rounded-full px-4 py-1">
                       {selectedItem.category}
                     </div>
                   </div>
 
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight mb-8 font-light leading-[1.1] dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-gold dark:to-gold-light">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight mb-8 font-light leading-[1.1] dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#B89851] dark:to-[#e6c875]">
                     {selectedItem.title}
                   </h1>
 
@@ -410,9 +432,9 @@ function DetailView({
                     {selectedItem.description}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-8 border-t border-neutral-200 dark:border-gold/20 pt-8 max-w-xl mb-12">
+                  <div className="grid grid-cols-2 gap-8 border-t border-neutral-200 dark:border-[#B89851]/20 pt-8 max-w-xl mb-12">
                     <div>
-                      <h4 className="text-xs font-mono text-neutral-400 dark:text-gold/60 mb-2 tracking-widest">
+                      <h4 className="text-xs font-mono text-neutral-400 dark:text-[#B89851]/60 mb-2 tracking-widest">
                         LOCATION
                       </h4>
                       <p className="text-sm font-medium dark:text-neutral-300">
@@ -420,7 +442,7 @@ function DetailView({
                       </p>
                     </div>
                     <div>
-                      <h4 className="text-xs font-mono text-neutral-400 dark:text-gold/60 mb-2 tracking-widest">
+                      <h4 className="text-xs font-mono text-neutral-400 dark:text-[#B89851]/60 mb-2 tracking-widest">
                         YEAR
                       </h4>
                       <p className="text-sm font-medium dark:text-neutral-300">
@@ -438,57 +460,34 @@ function DetailView({
   );
 }
 
-function GalleryFallbackGrid({
-  setSelectedItem,
-}: {
-  setSelectedItem: (item: GalleryItem) => void;
-}) {
-  return (
-    <div className="absolute inset-0 overflow-y-auto p-8 pt-32">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-        {galleryItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setSelectedItem(item)}
-            className="relative aspect-square overflow-hidden rounded-sm group text-left"
-          >
-            <img
-              src={item.url}
-              alt={item.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent" />
-            <div className="absolute bottom-3 left-3 right-3">
-              <p className="text-white text-sm font-serif">{item.title}</p>
-              <p className="text-white/60 text-[10px] uppercase tracking-widest">{item.category}</p>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export function Strengths() {
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
-    <section id="strengths" className="relative w-full h-[100svh] bg-neutral-100 dark:bg-[#050505] overflow-hidden transition-colors duration-500">
+    <section className="relative w-full h-[100svh] bg-neutral-100 dark:bg-[#050505] overflow-hidden transition-colors duration-500">
       {/* UI Overlay */}
-      <div className="absolute top-0 left-0 right-0 p-8 flex flex-col md:flex-row justify-between items-start z-10 pointer-events-none ui-layer">
+      <div className="absolute top-0 left-0 right-0 p-6 md:p-8 flex flex-col md:flex-row justify-between items-start z-10 pointer-events-none ui-layer">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <p className="font-mono text-neutral-500 dark:text-gold/60 text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors duration-500">
+          <p className="font-mono text-neutral-500 dark:text-[#B89851]/60 text-[10px] uppercase tracking-[0.2em] mb-2 md:mb-4 transition-colors duration-500">
             {strengths.eyebrow}
           </p>
-          <h2 className="font-serif text-[clamp(40px,5vw,72px)] leading-[0.9] tracking-tight text-neutral-900 dark:text-gold">
+          <h2 className="font-serif text-[clamp(32px,5vw,72px)] leading-[0.9] tracking-tight text-neutral-900 dark:text-[#B89851]">
             Our{" "}
-            <span className="italic dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-gold dark:to-gold-light">
-              DEVELOPMENTS.
+            <span className="italic dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#B89851] dark:to-[#e6c875]">
+              Strengths.
             </span>
           </h2>
         </motion.div>
@@ -498,9 +497,9 @@ export function Strengths() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-4 md:mt-0 text-right"
+          className="mt-4 md:mt-0 text-right pointer-events-auto"
         >
-          <p className="text-xs font-mono text-neutral-500 dark:text-gold/80 uppercase tracking-widest bg-white/80 dark:bg-ink/80 backdrop-blur px-4 py-2 rounded-full border border-neutral-200 dark:border-gold/30">
+          <p className="text-[10px] md:text-xs font-mono text-neutral-500 dark:text-[#B89851]/80 uppercase tracking-widest bg-white/80 dark:bg-[#121212]/80 backdrop-blur px-3 md:px-4 py-2 rounded-full border border-neutral-200 dark:border-[#B89851]/30">
             <span className="hidden md:inline">
               Drag to rotate • Click to view
             </span>
@@ -512,23 +511,22 @@ export function Strengths() {
       </div>
 
       <div className="absolute inset-0 cursor-grab active:cursor-grabbing">
-        <CanvasErrorBoundary
-          fallback={<GalleryFallbackGrid setSelectedItem={setSelectedItem} />}
+        <Canvas
+          style={{ touchAction: "pan-y" }}
+          camera={{ position: [0, 0, 0.1], fov: 60 }}
+          dpr={1}
+          gl={{ antialias: true, powerPreference: "high-performance" }}
         >
-          <Canvas
-            style={{ touchAction: "pan-y" }}
-            camera={{ position: [0, 0, 0.1], fov: 60 }}
-            dpr={1}
-            gl={{ antialias: true, powerPreference: "high-performance" }}
-          >
-            <ambientLight intensity={2} />
-            <directionalLight position={[10, 10, 5]} intensity={1} />
-            <React.Suspense fallback={null}>
-              <SphericalGallery setSelectedItem={setSelectedItem} />
-              <Environment preset="city" />
-            </React.Suspense>
-          </Canvas>
-        </CanvasErrorBoundary>
+          <ambientLight intensity={2} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+          <React.Suspense fallback={null}>
+            <SphericalGallery
+              setSelectedItem={setSelectedItem}
+              isMobile={isMobile}
+            />
+            <Environment preset="city" />
+          </React.Suspense>
+        </Canvas>
       </div>
 
       <DetailView

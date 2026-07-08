@@ -158,7 +158,7 @@ export function Footer() {
               </div>
               <button
                 type="submit"
-                className="w-full py-3 bg-[#10b981] hover:bg-[#0ea5e9] text-white rounded-lg font-medium transition-colors"
+                className="w-full py-3 bg-[#e1cd18] hover:bg-[#e1cd18] text-white rounded-lg font-medium transition-colors"
               >
                 Submit
               </button>

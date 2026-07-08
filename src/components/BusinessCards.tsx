@@ -1,13 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { LiquidImage } from "./LiquidImage";
 import { CanvasErrorBoundary } from "./CanvasErrorBoundary";
-import { TiltCard } from "./TiltCard";
 import { MagneticButton } from "./MagneticButton";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const businessAreas = {
   eyebrow: "03 / Capabilities",
@@ -75,7 +70,7 @@ const businessAreas = {
   ],
 };
 
-function BusinessCardItem({
+function MarqueeCard({
   card,
   onClick,
 }: {
@@ -85,98 +80,34 @@ function BusinessCardItem({
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <TiltCard maxTilt={5} className="shrink-0 h-full">
-      <button
-        onClick={onClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="relative w-[280px] sm:w-[320px] md:w-[420px] h-full rounded-sm overflow-hidden group border border-transparent dark:border-[#B89851]/20 transition-colors duration-500 text-left cursor-pointer"
-      >
-        <div className="absolute inset-0 bg-neutral-200 dark:bg-[#1a1a1a] -z-10 transition-colors duration-500" />
-
-        <CanvasErrorBoundary
-          fallback={
-            <img
-              src={card.image}
-              alt={card.title}
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 opacity-80 dark:opacity-70 transition-all duration-700"
-            />
-          }
-        >
-          <LiquidImage
-            src={card.image}
-            isHovered={isHovered}
-            className="absolute inset-0 w-full h-full opacity-80 dark:opacity-70 transition-opacity duration-500"
-          />
-        </CanvasErrorBoundary>
-
-        <div
-          className="absolute inset-0 z-10 pointer-events-none transition-colors duration-500"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(26,26,26,0) 35%, rgba(26,26,26,0.95) 100%)",
-          }}
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex-shrink-0 cursor-pointer w-[85vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] aspect-[4/5] mx-1 md:mx-2 transition-transform duration-500 hover:scale-[1.02]"
+    >
+      <div className="relative w-full h-full rounded-[1rem] md:rounded-[2rem] overflow-hidden bg-neutral-900 border border-white/5 group shadow-2xl">
+        <img
+          src={card.image}
+          alt={card.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <span className="absolute top-4 left-4 md:top-6 md:left-6 font-mono text-white/70 dark:text-[#B89851]/80 text-[10px] md:text-xs z-20 pointer-events-none transition-colors duration-500">
-          ( {card.index} )
-        </span>
-        <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 z-20 pointer-events-none">
-          <h3 className="font-serif font-light text-white dark:text-[#B89851] text-xl md:text-3xl mb-2 md:mb-3 transition-colors duration-500">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/0 pointer-events-none transition-opacity duration-500 group-hover:opacity-80" />
+        <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
+          <h3 className="text-white font-serif text-2xl md:text-3xl leading-tight font-light">
             {card.title}
           </h3>
-          <p className="font-sans text-white/70 dark:text-neutral-300 text-xs md:text-sm font-light leading-relaxed pr-10 md:pr-12 transition-colors duration-500 line-clamp-3 md:line-clamp-none">
-            {card.body}
-          </p>
         </div>
-        <span className="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 dark:bg-[#B89851]/20 backdrop-blur-md border border-white/20 dark:border-[#B89851]/30 grid place-items-center text-white dark:text-[#B89851] group-hover:bg-white dark:group-hover:bg-[#B89851] group-hover:text-neutral-900 dark:group-hover:text-white transition-colors z-20 pointer-events-none duration-500">
-          <ArrowRight
-            className="w-4 h-4 md:w-[18px] md:h-[18px]"
-            strokeWidth={1.5}
-          />
-        </span>
-      </button>
-    </TiltCard>
+      </div>
+    </div>
   );
 }
 
 export function BusinessCards() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
   const [activeCard, setActiveCard] = useState<
     (typeof businessAreas.cards)[0] | null
   >(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const track = trackRef.current;
-      const section = sectionRef.current;
-      if (!track || !section) return;
-
-      const getDistance = () =>
-        Math.max(0, track.scrollWidth - window.innerWidth);
-
-      const trigger = ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: () => `+=${getDistance()}`,
-        scrub: true,
-        pin: true,
-        invalidateOnRefresh: true,
-        animation: gsap.to(track, {
-          x: () => -getDistance(),
-          ease: "none",
-        }),
-      });
-
-      const onResize = () => trigger.refresh();
-      window.addEventListener("resize", onResize);
-      return () => window.removeEventListener("resize", onResize);
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   useEffect(() => {
     if (activeCard !== null) {
@@ -213,42 +144,55 @@ export function BusinessCards() {
     }
   };
 
+  // We duplicate the cards array 4 times to ensure it's wide enough for a seamless loop
+  // across all screen sizes.
+  const marqueeCards = [
+    ...businessAreas.cards,
+    ...businessAreas.cards,
+    ...businessAreas.cards,
+    ...businessAreas.cards,
+  ];
+
   return (
     <>
-      <section
-        ref={sectionRef}
-        className="relative bg-neutral-100 dark:bg-[#0f0f0f] overflow-hidden h-screen flex flex-col justify-center transition-colors duration-500"
-      >
-        <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 pt-8 md:pt-10 pb-8 md:pb-12 shrink-0">
-          <div className="w-14 h-14 md:w-20 md:h-20 flex items-center justify-center bg-neutral-900 dark:bg-[#1a1a1a] rounded-full text-white dark:text-[#B89851] animate-[spin_8s_linear_infinite] border dark:border-[#B89851]/30 transition-colors duration-500 shrink-0">
-            <span className="font-serif text-lg md:text-2xl font-medium tracking-widest">
-              UD
-            </span>
-          </div>
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-500 dark:text-[#B89851]/60 mb-1 md:mb-2 transition-colors duration-500">
-              {businessAreas.eyebrow}
-            </p>
-            <h2 className="font-serif font-light text-2xl md:text-5xl text-neutral-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#B89851] dark:to-[#e6c875] tracking-tight transition-colors duration-500">
-              {businessAreas.heading}
-            </h2>
-          </div>
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee {
+            animation: marquee 40s linear infinite;
+          }
+          .animate-marquee:hover {
+            animation-play-state: paused;
+          }
+        `}
+      </style>
+      <section className="relative bg-[#050505] overflow-hidden min-h-[90vh] flex flex-col justify-center py-24 transition-colors duration-500">
+        <div className="container mx-auto px-4 mb-12 md:mb-20 z-10">
+          <h2 className="font-serif font-light text-4xl md:text-5xl lg:text-[4.5rem] text-center text-white/90 max-w-4xl mx-auto leading-[1.1] tracking-tight">
+            Selected and popular
+            <br className="hidden md:block" />
+            <span className="md:hidden"> </span>business areas
+            <br className="hidden md:block" />
+            <span className="md:hidden"> </span>right now
+          </h2>
         </div>
 
-        <div
-          ref={trackRef}
-          className="relative flex gap-4 md:gap-6 px-4 md:px-10 pb-12 md:pb-16 w-fit h-[60vh] min-h-[350px] md:min-h-[400px]"
-        >
-          {businessAreas.cards.map((card) => (
-            <BusinessCardItem
-              key={card.index}
-              card={card}
-              onClick={() => {
-                setActiveCard(card);
-                setCurrentImageIndex(0);
-              }}
-            />
-          ))}
+        <div className="relative w-full overflow-hidden flex">
+          <div className="flex w-max animate-marquee py-4">
+            {marqueeCards.map((card, index) => (
+              <MarqueeCard
+                key={index}
+                card={card}
+                onClick={() => {
+                  setActiveCard(card);
+                  setCurrentImageIndex(0);
+                }}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -309,7 +253,11 @@ export function BusinessCards() {
                           e.stopPropagation();
                           setCurrentImageIndex(idx);
                         }}
-                        className={`w-2.5 h-2.5 rounded-full transition-all ${idx === currentImageIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"}`}
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${
+                          idx === currentImageIndex
+                            ? "bg-white scale-125"
+                            : "bg-white/40 hover:bg-white/60"
+                        }`}
                       />
                     ))}
                   </div>
@@ -321,7 +269,7 @@ export function BusinessCards() {
               <h3 className="font-serif text-2xl text-white tracking-wide">
                 {activeCard.title}
               </h3>
-              <p className="font-sans text-white/60 mt-2 max-w-2xl text-sm leading-relaxed">
+              <p className="font-sans text-white/60 mt-2 max-w-2xl text-sm leading-relaxed px-4">
                 {activeCard.body}
               </p>
             </div>

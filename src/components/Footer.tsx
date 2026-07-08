@@ -1,176 +1,171 @@
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
-import { LogoSVG } from "./Logo";
-import { FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa6";
+import { ArrowRight, X } from "lucide-react";
+import { useState } from "react";
+import { useLanguage } from "../lib/LanguageContext";
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  const navLinks = [
+    { key: "nav.company", href: "#company" },
+    { key: "nav.business", href: "#business" },
+    { key: "nav.strengths", href: "#strengths" },
+    { key: "nav.recruitment", href: "#recruitment" },
+    { key: "nav.news", href: "#news" },
+    { key: "nav.contact", href: "#contact" },
+  ];
 
   return (
-    <footer className="relative bg-[#0a0a0a] text-neutral-400 border-t border-white/5 pt-24 pb-8 overflow-hidden z-20">
-      {/* Background Glow / Accent */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-[#B89851]/50 to-transparent"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-32 bg-[#B89851]/10 blur-[100px] pointer-events-none"></div>
+    <>
+      <footer className="relative w-full bg-white px-2 pb-2 md:px-4 md:pb-4 pt-10">
+        <div className="relative w-full rounded-[2rem] overflow-hidden min-h-[500px] md:min-h-[600px] flex flex-col justify-between pt-16 md:pt-24 bg-[#a3b19b]">
+          {/* Background Image */}
+          <img
+            src="https://res.cloudinary.com/dcdc4hj6v/image/upload/v1783497587/mm2_uvvsly.jpg"
+            alt="Landscape"
+            className="absolute inset-0 w-full h-full object-cover z-0 object-top"
+          />
 
-      <div className="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24">
-        {/* Top Call to Action */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-16 mb-16">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-serif text-white mb-4">
-              Building the Future.
+          {/* Top Section */}
+          <div className="relative z-10 flex flex-col items-center text-center px-4 md:px-8 mt-8 md:mt-12 mb-20 md:mb-32">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-sans text-white font-medium max-w-4xl tracking-tight leading-snug mb-6">
+              Ready to Build the Future <br className="hidden md:block" />
+              with UD{" "}
+              <span className="inline-block align-middle w-12 h-6 md:w-24 md:h-12 mx-1 md:mx-2 rounded-full overflow-hidden border border-white/20 shadow-lg">
+                <img
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop"
+                  className="w-full h-full object-cover"
+                  alt="Building"
+                />
+              </span>{" "}
+              Group?
             </h2>
-            <p className="font-mono text-sm tracking-widest uppercase text-[#B89851]">
-              Together with UD Group
+            <p className="text-white/90 max-w-xl text-xs md:text-sm font-light mb-8">
+              Elevating standards and crafting the future of modern business,
+              engineering, and lifestyle development in Myanmar and beyond.
             </p>
+            <button
+              onClick={() => setIsContactModalOpen(true)}
+              className="flex items-center gap-3 pl-6 pr-2 py-2 bg-white/95 backdrop-blur-md text-black rounded-full font-medium text-sm hover:bg-white transition-colors cursor-pointer group shadow-xl"
+            >
+              <span>Contact Us</span>
+              <div className="bg-black text-white rounded-full p-2 flex items-center justify-center">
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </button>
           </div>
-          <button className="group flex items-center gap-4 px-8 py-4 bg-white text-black font-mono text-sm tracking-widest uppercase font-bold hover:bg-[#B89851] hover:text-white transition-all duration-300 rounded-full cursor-pointer">
-            <span>Contact Us</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
 
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
-          {/* Brand & Social */}
-          <div className="flex flex-col items-start lg:col-span-3">
-            <div className="text-white mb-6">
-              <LogoSVG className="w-16 h-auto text-white" />
+          {/* Bottom Glassmorphism Section */}
+          <div className="relative z-10 w-full bg-white/20 backdrop-blur-[24px] border-t border-white/20 pt-8 md:pt-10 px-4 md:px-12 lg:px-16 pb-4 md:pb-6 rounded-b-[2rem]">
+            {/* Copyright Row */}
+            <div className="flex flex-col md:flex-row justify-between items-center text-white/90 text-xs md:text-sm font-light mb-8 md:mb-12 gap-2 md:gap-4">
+              <span>© Copyright {currentYear}</span>
+              <div className="hidden md:block flex-1 mx-8 h-[1px] bg-white/30"></div>
+              <span>All Rights Reserved</span>
             </div>
-            <p className="text-sm font-light leading-relaxed mb-8 max-w-xs text-neutral-400">
-              Elevating standards and crafting the future of modern business and
-              lifestyle in Myanmar and beyond.
-            </p>
-            <div className="flex gap-4">
-              {[FaTwitter, FaLinkedin, FaInstagram].map((Icon, idx) => (
+
+            {/* Links Row */}
+            <div className="flex flex-wrap justify-center md:justify-between items-center gap-x-4 gap-y-3 md:gap-6 text-white text-xs md:text-sm font-medium mb-8 md:mb-16">
+              {navLinks.map((link) => (
                 <a
-                  key={idx}
-                  href="#"
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:border-[#B89851] hover:bg-[#B89851]/10 transition-all transform hover:-translate-y-1 duration-300"
+                  key={link.key}
+                  href={link.href}
+                  className="hover:text-black transition-colors whitespace-nowrap"
                 >
-                  <Icon className="w-4 h-4" />
+                  {t(link.key)}
                 </a>
               ))}
             </div>
-          </div>
 
-          {/* Quick Links */}
-          <div className="lg:col-span-2">
-            <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-white mb-6">
-              Navigation
-            </h3>
-            <ul className="space-y-4">
-              {[
-                "About Us",
-                "Our Projects",
-                "Leadership",
-                "Careers",
-                "News & Media",
-              ].map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
-                    className="text-sm font-light hover:text-[#B89851] transition-colors relative group inline-block"
-                  >
-                    {link}
-                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#B89851] transition-all duration-300 group-hover:w-full"></span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {/* Huge Text */}
+            <div className="w-full flex justify-center items-end overflow-hidden pt-4 pb-2">
+              <h1 className="text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[12vw] font-sans font-bold text-white tracking-tighter leading-none select-none whitespace-nowrap">
+                UD Group
+              </h1>
+            </div>
           </div>
+        </div>
+      </footer>
 
-          {/* Contact Info */}
-          <div className="lg:col-span-3">
-            <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-white mb-6">
-              Contact
-            </h3>
-            <ul className="space-y-6">
-              <li className="flex items-start gap-3 group cursor-pointer">
-                <MapPin className="w-5 h-5 text-[#B89851] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-light leading-relaxed group-hover:text-white transition-colors">
-                  No. 123, UD Tower, <br />
-                  Mandalay, Myanmar
-                </span>
-              </li>
-              <li className="flex items-center gap-3 group cursor-pointer">
-                <Phone className="w-5 h-5 text-[#B89851] shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-light group-hover:text-white transition-colors">
-                  +95 2 123 4567
-                </span>
-              </li>
-              <li className="flex items-center gap-3 group cursor-pointer">
-                <Mail className="w-5 h-5 text-[#B89851] shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-light group-hover:text-white transition-colors">
-                  info@udgroup.com
-                </span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Query Form */}
-          <div className="lg:col-span-4">
-            <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-white mb-6">
-              Send a Query
-            </h3>
-            <p className="text-sm font-light mb-4 text-neutral-400">
-              Have questions? We'd love to hear from you.
-            </p>
-            <form
-              className="flex flex-col gap-3"
-              onSubmit={(e) => e.preventDefault()}
+      {/* Contact Form Modal */}
+      {isContactModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-[#121212] rounded-2xl p-6 md:p-8 w-full max-w-md relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setIsContactModalOpen(false)}
+              className="absolute top-4 right-4 text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
             >
-              <input
-                type="text"
-                placeholder="Full Name"
-                required
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300"
-              />
-              <div className="grid grid-cols-2 gap-3">
+              <X className="w-5 h-5" />
+            </button>
+            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
+              Contact Us
+            </h3>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-6">
+              Send us a message and we'll get back to you.
+            </p>
+
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setIsContactModalOpen(false);
+              }}
+            >
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Name
+                </label>
                 <input
-                  type="email"
-                  placeholder="Email Address"
+                  type="text"
                   required
-                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300"
-                />
-                <input
-                  type="tel"
-                  placeholder="Mobile Number"
-                  className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300"
+                  className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#1a1a1a] text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#10b981]/50 focus:border-[#10b981]"
+                  placeholder="Your Name"
                 />
               </div>
-              <textarea
-                placeholder="Your Query..."
-                rows={3}
-                required
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#B89851] focus:ring-1 focus:ring-[#B89851] focus:bg-white/10 transition-all duration-300 resize-none"
-              ></textarea>
-              <button className="bg-[#B89851] text-black font-mono text-xs font-bold uppercase tracking-widest px-4 py-3 mt-1 rounded-lg hover:bg-white transition-colors cursor-pointer flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(184,152,81,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]">
-                Submit Query
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Mobile
+                </label>
+                <input
+                  type="tel"
+                  required
+                  className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#1a1a1a] text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#10b981]/50 focus:border-[#10b981]"
+                  placeholder="Your Phone Number"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#1a1a1a] text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#10b981]/50 focus:border-[#10b981]"
+                  placeholder="Your Email Address"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Query
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#1a1a1a] text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#10b981]/50 focus:border-[#10b981] resize-none"
+                  placeholder="How can we help you?"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="w-full py-3 bg-[#10b981] hover:bg-[#0ea5e9] text-white rounded-lg font-medium transition-colors"
+              >
+                Submit
               </button>
             </form>
           </div>
         </div>
-
-        {/* Bottom Copyright */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase">
-            © {currentYear} UD GROUP. ALL RIGHTS RESERVED.
-          </p>
-          <div className="flex gap-6">
-            <a
-              href="#"
-              className="text-[10px] font-mono tracking-[0.2em] text-neutral-500 hover:text-[#B89851] uppercase transition-colors"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="text-[10px] font-mono tracking-[0.2em] text-neutral-500 hover:text-[#B89851] uppercase transition-colors"
-            >
-              Terms of Service
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
+      )}
+    </>
   );
 }

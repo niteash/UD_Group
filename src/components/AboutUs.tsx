@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LiquidTransitionImage } from "./LiquidTransitionImage";
 import { CanvasErrorBoundary } from "./CanvasErrorBoundary";
-import { SplitReveal } from "./SplitReveal";
+import { useLanguage } from "../lib/LanguageContext";
 
 const images = [
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
@@ -9,31 +9,9 @@ const images = [
   "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=1200&auto=format&fit=crop",
 ];
 
-const links = [
-  {
-    title: "Our Team",
-    subtitle:
-      "We are powered by 17 skilled technicians and a dedicated workforce of 400 employees, ensuring the highest standards in our operations.",
-  },
-  {
-    title: "Our Future Vision",
-    subtitle:
-      "As we move forward, UD Group is committed to strengthening its position in the real estate and construction sector, delivering innovative projects that enhance urban living in Myanmar. We warmly welcome you to visit our company and explore collaboration opportunities.",
-  },
-  {
-    title: "Our Approach",
-    subtitle:
-      "Every project is grounded in long-term thinking: durable materials, transparent timelines, and a focus on the people who will actually live and work in what we build.",
-  },
-  {
-    title: "Specialise",
-    subtitle:
-      "Light Trucks & Jeeps Distribution – Supplying to over fifty trusted partners. Crane & Generator Services – Providing reliable equipment rental and maintenance. Construction & Real Estate – Developing large-scale projects, including our latest Amara Garden City housing project.",
-  },
-];
-
 export function AboutUs() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,14 +21,32 @@ export function AboutUs() {
     return () => clearInterval(interval);
   }, []);
 
+  const links = [
+    {
+      title: t("about.links.0.title"),
+      subtitle: t("about.links.0.subtitle"),
+    },
+    {
+      title: t("about.links.1.title"),
+      subtitle: t("about.links.1.subtitle"),
+    },
+    {
+      title: t("about.links.2.title"),
+      subtitle: t("about.links.2.subtitle"),
+    },
+    {
+      title: t("about.links.3.title"),
+      subtitle: t("about.links.3.subtitle"),
+    },
+  ];
+
   return (
-    <section id="about" className="relative w-full min-h-screen flex flex-col lg:flex-row bg-[#F8F9FA] dark:bg-ink-deep transition-colors duration-500">
+    <section
+      id="about"
+      className="relative w-full min-h-screen flex flex-col lg:flex-row bg-[#F8F9FA] dark:bg-ink-deep transition-colors duration-500"
+    >
       {/* Left Image Carousel */}
       <div className="relative w-full lg:w-1/2 h-[50vh] lg:h-auto overflow-hidden bg-neutral-200 dark:bg-ink">
-        {/* Plain crossfade base layer — always correct, independent of
-            WebGL. The shader-driven liquid transition on top is a bonus
-            effect; if a texture fails to load, this still crossfades fine
-            on its own via CSS opacity. */}
         {images.map((src, i) => (
           <img
             key={src}
@@ -74,31 +70,22 @@ export function AboutUs() {
       <div className="w-full lg:w-1/2 flex items-center p-6 md:p-12 lg:p-20 overflow-y-auto">
         <div className="w-full max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-neutral-400 dark:text-gold/60 mb-10 tracking-wide font-sans transition-colors duration-500">
-            <SplitReveal text="About Us" by="char" />
+            {t("about.title")}
           </h2>
 
           <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-gold mb-6 leading-tight font-sans transition-colors duration-500">
-            UD Group Co., Ltd. was established in Year 2002, June 1. Located in
-            Mandalay city and middle of Myanmar.
+            {t("about.h3")}
           </h3>
 
-          <p className="text-neutral-800 dark:text-neutral-300 font-medium leading-relaxed mb-12 text-sm md:text-base transition-colors duration-500">
-            The main products are Light Trucks, Jeeps and Generators to over
-            fifty suppliers.
-            <br />
-            And we do Crane and Generator service, Car import , Car rental ,Jade
-            mining , Mining Machine , Construction and Real estate too.
-            <br />
-            There are seventeen technicians working together with the assistance
-            of 400 workers.
+          <p className="text-neutral-800 dark:text-neutral-300 font-medium leading-relaxed mb-12 text-sm md:text-base transition-colors duration-500 whitespace-pre-line">
+            {t("about.desc")}
           </p>
 
           {/* Bordered Container */}
           <div className="flex flex-col border border-black dark:border-gold/30 rounded-sm overflow-hidden bg-transparent transition-colors duration-500">
             {links.map((link, index) => (
-              <a
+              <div
                 key={index}
-                href="#"
                 className="group flex items-center justify-between p-6 md:p-8 border-b border-black dark:border-gold/30 hover:bg-black/5 dark:hover:bg-gold/10 transition-colors"
               >
                 <div className="flex flex-col">
@@ -110,35 +97,26 @@ export function AboutUs() {
                     {link.title}
                   </div>
                 </div>
-                {/* <div className="flex items-center gap-4">
-                  <span className="text-sm font-bold tracking-widest uppercase text-neutral-900 dark:text-gold hidden sm:block transition-colors duration-500">
-                    Read More
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-black dark:bg-gold text-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <ArrowRight size={16} />
-                  </div>
-                </div> */}
-              </a>
+              </div>
             ))}
 
             {/* Split Companies Section */}
             <div className="flex flex-col md:flex-row">
               {/* UD */}
-              <a
-                href="#"
-                className="group w-full md:w-1/2 p-6 md:p-8 border-b md:border-b-0 md:border-r border-black dark:border-gold/30 hover:bg-black/5 dark:hover:bg-gold/10 transition-colors flex flex-col justify-between"
-              >
+              <div className="group w-full md:w-1/2 p-6 md:p-8 border-b md:border-b-0 md:border-r border-black dark:border-gold/30 hover:bg-black/5 dark:hover:bg-gold/10 transition-colors flex flex-col justify-between">
                 <div>
                   <h4 className="text-xl font-bold text-neutral-900 dark:text-gold mb-1 transition-colors duration-500">
-                    Company Profile: UD Group
+                    {t("about.ud.title")}
                   </h4>
                   <div className="flex items-center text-neutral-500 dark:text-gold/70 font-mono text-xs md:text-sm tracking-widest mb-6 transition-colors duration-500">
-                    <span className="w-6 h-[1px] bg-neutral-400 dark:bg-gold/50 mr-2 transition-colors duration-500" />
-                    Main Factory Area: 43,200 sq. ft.
-                    <br />
-                    Parts Factory Area: 64,000 sq. ft.
-                    <br />
-                    Generator Factory: 43,200 sq. ft.
+                    <span className="w-6 h-[1px] bg-neutral-400 dark:bg-gold/50 mr-2 transition-colors duration-500 shrink-0" />
+                    <span>
+                      {t("about.ud.desc1")}
+                      <br />
+                      {t("about.ud.desc2")}
+                      <br />
+                      {t("about.ud.desc3")}
+                    </span>
                   </div>
                   <div className="w-full aspect-[4/3] overflow-hidden rounded-sm mb-6">
                     <img
@@ -148,32 +126,17 @@ export function AboutUs() {
                     />
                   </div>
                 </div>
-                {/* <div className="flex items-center justify-end gap-3 mt-4">
-                  <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-neutral-900 dark:text-gold transition-colors duration-500">
-                    Read More
-                  </span>
-                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-black dark:bg-gold text-white flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                    <ArrowRight size={14} />
-                  </div>
-                </div> */}
-              </a>
+              </div>
 
               {/* fTk */}
-              <a
-                href="#"
-                className="group w-full md:w-1/2 p-6 md:p-8 hover:bg-black/5 dark:hover:bg-gold/10 transition-colors flex flex-col justify-between"
-              >
+              <div className="group w-full md:w-1/2 p-6 md:p-8 hover:bg-black/5 dark:hover:bg-gold/10 transition-colors flex flex-col justify-between">
                 <div>
                   <h4 className="text-xl font-bold text-neutral-900 dark:text-gold mb-1 transition-colors duration-500">
-                    Amara Garden City – A Vision for Modern Living
+                    {t("about.amara.title")}
                   </h4>
                   <div className="flex items-center text-neutral-500 dark:text-gold/70 font-mono text-md md:text-sm tracking-widest mb-6 transition-colors duration-500">
-                    <span className="w-6 h-[1px] bg-neutral-400 dark:bg-gold/50 mr-2 transition-colors duration-500" />
-                    Located on a 60-acre site, Amara Garden City is our flagship
-                    real estate development, designed to offer a high-quality
-                    residential experience in Mandalay. Our project aims to
-                    create a thriving community with modern infrastructure,
-                    green spaces, and premium facilities.
+                    <span className="w-6 h-[1px] bg-neutral-400 dark:bg-gold/50 mr-2 transition-colors duration-500 shrink-0" />
+                    <span>{t("about.amara.desc")}</span>
                   </div>
 
                   <div className="w-full aspect-[4/3] overflow-hidden rounded-sm mb-6">
@@ -184,15 +147,7 @@ export function AboutUs() {
                     />
                   </div>
                 </div>
-                {/* <div className="flex items-center justify-end gap-3 mt-4">
-                  <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-neutral-900 dark:text-gold transition-colors duration-500">
-                    Read More
-                  </span>
-                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-black dark:bg-gold text-white flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                    <ArrowRight size={14} />
-                  </div>
-                </div> */}
-              </a>
+              </div>
             </div>
           </div>
         </div>
